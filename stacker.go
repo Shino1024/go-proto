@@ -30,22 +30,10 @@ func InitializeStackL(l int) *Stack {
 	return s
 }
 
-func InitializeStackN(d interface{}, l int) *Stack {
-	temp := reflect.ValueOf(d)
-	s := new(Stack)
-	s.data = make([]interface{}, temp.Len(), MaxCap)
-	for i := 0; i < temp.Len(); i++ {
-		s.data[i] = temp.Index(i).Interface()
-	}
-	s.length = temp.Len()
-	if l < temp.Len() {
-		l = temp.Len()
-	}
-	s.maxlen = l
-	return s
-}
-
 func InitializeStackA(d interface{}) *Stack {
+	if len(d) == 0 {
+		return InitializeStack()
+	}
 	temp := reflect.ValueOf(d)
 	s := new(Stack)
 	s.data = make([]interface{}, temp.Len(), MaxCap)
@@ -59,13 +47,34 @@ func InitializeStackA(d interface{}) *Stack {
 
 func InitializeStackVar(d ...interface{}) *Stack {
 	s := new(Stack)
-	s.data = make([]interface{}, len(d), MaxCap)
+	s.data = make([]interface{}, 0, MaxCap)
 	for _, v := range d {
 		s.Push(v)
 	}
 	s.length = len(d)
 	s.maxlen = MaxCap
 	return s
+}
+
+func (s *Stack) Get(w int) (interface{}, error) {
+	if w < 0 {
+		return nil, errors.New("Negative subscript.")
+	} else if w > s.length - 1 {
+		return nil, errors.New("Subscript beyond the scope.")
+	}
+	fmt.Println(s.data[w])
+	return s.data[w], nil
+}
+
+func (s *Stack) GetFromTo(f, t int) ([]interface{}, error) {
+	if f < 0 || t < 0 {
+		return nil, errors.New("Negative subscript.")
+	} else if t > s.length - 1 || f > s.length - 1 {
+		return nil, errors.New("Subscript beyond the scope.")
+	} else if t < f {
+		return nil, errors.New("The second argument is smaller than the second one.")
+	}
+	return s.data[f:t], nil
 }
 
 func (s *Stack) IsEmpty() bool {
@@ -83,11 +92,11 @@ func (s *Stack) Top() (interface{}, error) {
 }
 
 func (s *Stack) Push(a interface{}) error {
-	if s.length + 1 == s.maxlen {
+	if s.length == s.maxlen {
 		return errors.New("Cannot push more, not enough space.")
 	}
 	s.length++
-	temp := make([]interface{}, s.length)
+	temp := make([]interface{}, s.length, s.maxlen)
 	copy(temp, s.data)
 	temp[s.length - 1] = a
 	s.data = temp
@@ -100,12 +109,14 @@ func (s *Stack) PushA(a interface{}) error {
 	for i := 0; i < temp.Len(); i++ {
 		temp2[i] = temp.Index(i).Interface()
 	}
-	for _, v := range temp2 {
-		if temp.Len() + s.length >= s.maxlen {
-			return errors.New("Haven't pushed all of the elements, not enough space.")
-		}
-		s.Push(v)
+	if s.maxlen < s.length + temp.Len() {
+		return errors.New("Haven't pushed all of the elements, not enough space.")
 	}
+	temp3 := make([]interface{}, s.length + temp.Len(), s.maxlen)
+	copy(temp3[0:s.length], s.data)
+	copy(temp3[s.length:s.length + temp.Len()], temp2)
+	s.data = temp3
+	s.length = s.length + temp.Len()
 	return nil
 }
 
@@ -138,10 +149,7 @@ func (s *Stack) PopN(a int) ([]interface{}, error) {
 	ret := make([]interface{}, a)
 	copy(ret, s.data[len(s.data) - a:])
 	s.data = s.data[:len(s.data) - a]
-	fmt.Println("s.data - length:", len(s.data))
 	s.length -= a
-	fmt.Println("s.length = ", s.length)
-	fmt.Println(s)
 	return ret, nil
 }
 
@@ -186,9 +194,7 @@ func (s *Stack) Concat(s2 *Stack) error {
 	if s.length + s2.length > s.maxlen {
 		return errors.New("The second stack is too long.")
 	}
-	for _, v := range s2.data {
-		s.Push(v)
-	}
+	s.PushA(s2.data)
 	return nil
 }
 
