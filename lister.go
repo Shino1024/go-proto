@@ -3,6 +3,7 @@ package lister
 import (
 	"fmt"
 	"errors"
+	"reflect"
 )
 
 type List struct {
@@ -23,10 +24,10 @@ func InitializeList() *List {
 }
 
 func InitializeListVar(d ...interface{}) *List {
+	l := new(List)
 	if len(d) == 0 {
 		return InitializeList()
 	} else {
-		l := new(List)
 		l.startingNode = nil
 		l.length = 0
 		for _, v := range d {
@@ -37,10 +38,10 @@ func InitializeListVar(d ...interface{}) *List {
 }
 
 func InitializeListA(d interface{}) *List {
-	if len(d) == 0 {
+	temp := reflect.ValueOf(d)
+	if temp.Len() == 0 {
 		return InitializeList()
 	}
-	temp := reflect.ValueOf(d)
 	temp2 := make([]interface{}, temp.Len())
 	for i := 0; i < temp.Len(); i++ {
 		temp2[i] = temp.Index(i).Interface()
@@ -71,15 +72,15 @@ func (l *List) Append(d interface{}) {
 	} else {
 		t := new(node)
 		t = l.startingNode
-		for ; t != nil; t = t.nextNode {
+		for ; t.nextNode != nil; t = t.nextNode {
 		}
-		t = n
+		t.nextNode = n
 		l.length++
 	}
 }
 
 func (l *List) AppendA(d interface{}) {
-	temp := reflect.ValueOf(a)
+	temp := reflect.ValueOf(d)
 	temp2 := make([]interface{}, temp.Len())
 	for i := 0; i < temp.Len(); i++ {
 		temp2[i] = temp.Index(i).Interface()
@@ -131,7 +132,33 @@ func (l *List) PrintAllln(sepstr ...string) {
 	fmt.Println("]")
 }
 
-func (l *List) Del(d interface{}) error {
+func (l *List) Search(d interface{}) bool {
+	for temp := l.startingNode; temp != nil; temp = temp.nextNode {
+		if temp.data == d {
+			return true
+		}
+	}
+	return false
+}
+
+
+func (l *List) Delete(d interface{}) (interface{}, error) {
+	if l.length == 0 {
+		return nil, errors.New("The list is empty.")
+	} else if l.length == 1 && l.startingNode.data == d {
+		ret := l.startingNode.data
+		l = InitializeList()
+		return ret, nil
+	}
+	temp := new(node)
+	toDelete := new(node)
+	for toDelete = l.startingNode; toDelete.data != d; toDelete = toDelete.nextNode {
+		if toDelete == nil {
+			return nil, errors.New("Haven't found the element to delete.")
+		}
+	}
+	for temp = l.startingNode; temp.nextNode != toDelete; temp = temp.nextNode {
+	}
 	
 }
 
