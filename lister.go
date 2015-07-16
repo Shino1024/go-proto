@@ -8,6 +8,7 @@ import (
 
 type List struct {
 	startingNode *node
+	endingNode   *node
 	length       int
 }
 
@@ -16,42 +17,63 @@ type node struct {
 	data     interface{}
 }
 
-func InitializeList() *List {
-	l := new(List)
-	l.startingNode = nil
-	l.length = 0
-	return l
-}
-
-func InitializeListVar(d ...interface{}) *List {
-	l := new(List)
-	if len(d) == 0 {
-		return InitializeList()
-	} else {
-		l.startingNode = nil
-		l.length = 0
-		for _, v := range d {
-			l.Append(v)
-		}
-	}
-	return l
-}
-
-func InitializeListA(d interface{}) *List {
+func InitializeList(d ...interface{}) *List {
 	temp := reflect.ValueOf(d)
+	l := new(List)
 	if temp.Len() == 0 {
-		return InitializeList()
+		l.startingNode = nil
+		l.endingNode = nil
+		l.length = 0
+		return l
 	}
 	temp2 := make([]interface{}, temp.Len())
 	for i := 0; i < temp.Len(); i++ {
 		temp2[i] = temp.Index(i).Interface()
 	}
-	l := new(List)
-	l.startingNode = nil
-	l.length = 0
-	for _, v := range temp2 {
-		l.Append(v)
+	temp3 := new(node)
+	temp3.nextNode = nil
+	l.startingNode = temp3
+	for k, v := range temp2 {
+		temp3.data = v
+		if k == len(temp2) - 1 {
+			l.endingNode = temp3
+			temp3.nextNode = nil
+			break
+		}
+		temp3.nextNode = new(node)
+		temp3 = temp3.nextNode
 	}
+	l.length = temp.Len()
+	return l
+}
+
+func InitializeListA(d interface{}) *List {
+	temp := reflect.ValueOf(d)
+	l := new(List)
+	if temp.Len() == 0 {
+		l.startingNode = nil
+		l.endingNode = nil
+		l.length = 0
+		return l
+	}
+	temp2 := make([]interface{}, temp.Len())
+	for i := 0; i < temp.Len(); i++ {
+		temp2[i] = temp.Index(i).Interface()
+	}
+	temp3 := new(node)
+	temp3.nextNode = nil
+	l.startingNode = temp3
+	for k, v := range temp2 {
+		temp3.data = v
+		if k == len(temp2) - 1 {
+			l.endingNode = temp3
+			temp3.nextNode = nil
+			break
+		} 
+		temp3.nextNode = new(node)
+		temp3 = temp3.nextNode
+	}
+	l.length = temp.Len()
 	return l
 }
 
@@ -62,36 +84,58 @@ func (l *List) IsEmpty() bool {
 	return true
 }
 
-func (l *List) Append(d interface{}) {
-	n := new(node)
-	n.nextNode = nil
-	n.data = d
-	if l.startingNode == nil {
-		l.startingNode = n
-		l.length = 1
-	} else {
-		t := new(node)
-		t = l.startingNode
-		for ; t.nextNode != nil; t = t.nextNode {
-		}
-		t.nextNode = n
-		l.length++
-	}
+func (l *List) Length() int {
+	return l.length
 }
 
-func (l *List) AppendA(d interface{}) {
+func (l *List) Append(d ...interface{}) {
 	temp := reflect.ValueOf(d)
+	if temp.Len() == 0 {
+		return
+	}
 	temp2 := make([]interface{}, temp.Len())
 	for i := 0; i < temp.Len(); i++ {
 		temp2[i] = temp.Index(i).Interface()
 	}
-	for _, v := range temp2 {
-		l.Append(v)
+	temp3 := new(node)
+	temp3.nextNode = nil
+	l.endingNode.nextNode = temp3
+	for k, v := range temp2 {
+		temp3.data = v
+		if k == len(temp2) - 1 {
+			l.endingNode = temp3
+			temp3.nextNode = nil
+			break
+		} 
+		temp3.nextNode = new(node)
+		temp3 = temp3.nextNode
 	}
+	l.length += temp.Len()
 }
 
-func (l *List) AppendVar(d ...interface{}) {
-	
+func (l *List) AppendA(d interface{}) {
+	temp := reflect.ValueOf(d)
+	if temp.Len() == 0 {
+		return
+	}
+	temp2 := make([]interface{}, temp.Len())
+	for i := 0; i < temp.Len(); i++ {
+		temp2[i] = temp.Index(i).Interface()
+	}
+	temp3 := new(node)
+	temp3.nextNode = nil
+	l.endingNode.nextNode = temp3
+	for k, v := range temp2 {
+		temp3.data = v
+		if k == len(temp2) - 1 {
+			l.endingNode = temp3
+			temp3.nextNode = nil
+			break
+		} 
+		temp3.nextNode = new(node)
+		temp3 = temp3.nextNode
+	}
+	l.length += temp.Len()
 }
 
 func (l *List) PrintAll(sepstr ...string) {
@@ -134,31 +178,66 @@ func (l *List) PrintAllln(sepstr ...string) {
 
 func (l *List) Search(d interface{}) bool {
 	for temp := l.startingNode; temp != nil; temp = temp.nextNode {
-		if temp.data == d {
+		if reflect.DeepEqual(temp.data, d) {
 			return true
 		}
 	}
 	return false
 }
 
-
 func (l *List) Delete(d interface{}) (interface{}, error) {
 	if l.length == 0 {
 		return nil, errors.New("The list is empty.")
-	} else if l.length == 1 && l.startingNode.data == d {
+	} else if l.length == 1 && reflect.DeepEqual(l.startingNode.data, d) == true {
 		ret := l.startingNode.data
 		l = InitializeList()
+		l.length--
 		return ret, nil
+	} else if reflect.DeepEqual(l.startingNode.data, d) == true {
+		ret := l.startingNode.data
+		l.startingNode = l.startingNode.nextNode
+		l.length--
+		return ret, nil
+	} else if l.length == 1 && reflect.DeepEqual(l.startingNode.data, d) == false {
+		return nil, errors.New("Haven't found the element to delete.")
 	}
-	temp := new(node)
 	toDelete := new(node)
-	for toDelete = l.startingNode; toDelete.data != d; toDelete = toDelete.nextNode {
-		if toDelete == nil {
+	for toDelete = l.startingNode; reflect.DeepEqual(toDelete.data, d) == false; toDelete = toDelete.nextNode {
+		if toDelete.nextNode == nil && reflect.DeepEqual(toDelete.data, d) == false {
 			return nil, errors.New("Haven't found the element to delete.")
 		}
 	}
+	temp := new(node)
 	for temp = l.startingNode; temp.nextNode != toDelete; temp = temp.nextNode {
 	}
-	
+	if toDelete.nextNode == nil {
+		ret := temp.nextNode.data
+		temp.nextNode = nil
+		l.length--
+		return ret, nil
+	}
+	ret := toDelete.data
+	temp.nextNode = temp.nextNode.nextNode
+	toDelete = nil
+	l.length--
+	return ret, nil
+}
+
+func (l *List) DeleteAll(d interface{}) {
+	for ; l.Search(d) == true; {
+		l.Delete(d)
+	}
+}
+
+func (l *List) Empty() ([]interface{}, error) {
+	if l.length == 0 {
+		return nil, errors.New("The list is empty already.")
+	}
+	ret := make([]interface{}, l.length)
+	for it, it2 := l.startingNode, 0; it.nextNode != nil; it, it2 = it.nextNode, it2 + 1 {
+		ret[it2] = it.data
+	}
+	l = InitializeList()
+	return ret, nil
 }
 
