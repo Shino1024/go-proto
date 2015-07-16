@@ -14,11 +14,12 @@ type Stack struct {
 
 const MaxCap = 1024
 
-func InitializeStack() *Stack {
+func InitializeStack(d ...interface{}) *Stack {
 	s := new(Stack)
 	s.data = make([]interface{}, 0, MaxCap)
 	s.length = 0
 	s.maxlen = MaxCap
+	s.Push(d...)
 	return s
 }
 
@@ -26,32 +27,24 @@ func InitializeStackL(l int) *Stack {
 	s := new(Stack)
 	s.data = make([]interface{}, 0, l)
 	s.length = 0
+	if l < 1 || l > 10000000 {
+		l = MaxCap
+	}
 	s.maxlen = l
 	return s
 }
 
 func InitializeStackA(d interface{}) *Stack {
-	if len(d) == 0 {
+	temp := reflect.ValueOf(d)
+	if temp.Len() == 0 {
 		return InitializeStack()
 	}
-	temp := reflect.ValueOf(d)
 	s := new(Stack)
 	s.data = make([]interface{}, temp.Len(), MaxCap)
 	for i := 0; i < temp.Len(); i++ {
 		s.data[i] = temp.Index(i).Interface()
 	}
 	s.length = temp.Len()
-	s.maxlen = MaxCap
-	return s
-}
-
-func InitializeStackVar(d ...interface{}) *Stack {
-	s := new(Stack)
-	s.data = make([]interface{}, 0, MaxCap)
-	for _, v := range d {
-		s.Push(v)
-	}
-	s.length = len(d)
 	s.maxlen = MaxCap
 	return s
 }
@@ -91,42 +84,43 @@ func (s *Stack) Top() (interface{}, error) {
 	return s.data[s.length - 1], nil
 }
 
-func (s *Stack) Push(a interface{}) error {
+func (s *Stack) PushA(a interface{}) error {
 	if s.length == s.maxlen {
 		return errors.New("Cannot push more, not enough space.")
 	}
-	s.length++
-	temp := make([]interface{}, s.length, s.maxlen)
-	copy(temp, s.data)
-	temp[s.length - 1] = a
-	s.data = temp
-	return nil
-}
-
-func (s *Stack) PushA(a interface{}) error {
 	temp := reflect.ValueOf(a)
 	temp2 := make([]interface{}, temp.Len(), MaxCap)
 	for i := 0; i < temp.Len(); i++ {
 		temp2[i] = temp.Index(i).Interface()
 	}
 	if s.maxlen < s.length + temp.Len() {
-		return errors.New("Haven't pushed all of the elements, not enough space.")
+		return errors.New("Insufficient space for the elements.")
 	}
-	temp3 := make([]interface{}, s.length + temp.Len(), s.maxlen)
+	temp3 := make([]interface{}, temp.Len() + s.length, s.maxlen)
 	copy(temp3[0:s.length], s.data)
 	copy(temp3[s.length:s.length + temp.Len()], temp2)
 	s.data = temp3
-	s.length = s.length + temp.Len()
+	s.length += temp.Len()
 	return nil
 }
 
-func (s *Stack) PushVar(a ...interface{}) error {
-	for _, v := range a {
-		if len(a) + s.length >= s.maxlen {
-			return errors.New("Haven't pushed all of the elements, not enough space.")
-		}
-		s.Push(v)
+func (s *Stack) Push(a ...interface{}) error {
+	if s.length == s.maxlen {
+		return errors.New("Cannot push more, not enough space.")
 	}
+	temp := reflect.ValueOf(a)
+	temp2 := make([]interface{}, temp.Len(), MaxCap)
+	for i := 0; i < temp.Len(); i++ {
+		temp2[i] = temp.Index(i).Interface()
+	}
+	if s.maxlen < s.length + temp.Len() {
+		return errors.New("Insufficient space for the elements.")
+	}
+	temp3 := make([]interface{}, temp.Len() + s.length, s.maxlen)
+	copy(temp3[0:s.length], s.data)
+	copy(temp3[s.length:s.length + temp.Len()], temp2)
+	s.data = temp3
+	s.length += temp.Len()
 	return nil
 }
 
@@ -154,6 +148,9 @@ func (s *Stack) PopN(a int) ([]interface{}, error) {
 }
 
 func (s *Stack) Empty() []interface{} {
+	if s.length == 0 {
+		return nil
+	}
 	ret, _ := s.PopN(s.length)
 	return ret
 }
@@ -190,34 +187,28 @@ func (s *Stack) PrintAllln(sepstr ...string) {
 	fmt.Println("]")
 }
 
-func (s *Stack) Concat(s2 *Stack) error {
-	if s.length + s2.length > s.maxlen {
-		return errors.New("The second stack is too long.")
-	}
-	s.PushA(s2.data)
-	return nil
-}
-
-func (s *Stack) ConcatVar(s2 ...*Stack) error {
+func (s *Stack) Concat(s2 ...*Stack) error {
+	var length int
 	for _, v := range s2 {
-		if s.Concat(v) != nil {
-			return errors.New("Not all stacks were concatenated, the overall capacity is too great.")
-		}
+		length += v.length
 	}
+	if length > s.maxlen {
+		return errors.New("Concatenation failed, not enough space.")
+	}
+	temp := make([]interface{}, length)
+	temp2 := 0
+	for _, v := range s2 {
+		copy(temp[temp2:temp2 + v.length], v.data)
+		temp2 += v.length
+	}
+	s.Push(temp...)
 	return nil
 }
 
-func ConcatRetVar(s ...*Stack) *Stack {
+func ConcatStacks(s ...*Stack) *Stack {
 	if len(s) > 0 {
-		ret := new(Stack)
-		var maxlen int
-		for _, v := range s {
-			maxlen += v.maxlen
-		}
-		ret.maxlen = 2 * maxlen
-		for _, v := range s {
-			ret.Concat(v)
-		}
+		ret := InitializeStack()
+		ret.Concat(s...)
 		return ret
 	}
 	return InitializeStack()
@@ -256,3 +247,4 @@ func (s *Stack) Maxlen() int {
 func (s *Stack) Length() int {
 	return s.length
 }
+
