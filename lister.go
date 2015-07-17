@@ -99,7 +99,11 @@ func (l *List) Append(d ...interface{}) {
 	}
 	temp3 := new(node)
 	temp3.nextNode = nil
-	l.endingNode.nextNode = temp3
+	if l.length == 0 {
+		l.startingNode = temp3
+	} else {
+		l.endingNode.nextNode = temp3
+	}
 	for k, v := range temp2 {
 		temp3.data = v
 		if k == len(temp2) - 1 {
@@ -124,7 +128,11 @@ func (l *List) AppendA(d interface{}) {
 	}
 	temp3 := new(node)
 	temp3.nextNode = nil
-	l.endingNode.nextNode = temp3
+	if l.length == 0 {
+		l.startingNode = temp3
+	} else {
+		l.endingNode.nextNode = temp3
+	}
 	for k, v := range temp2 {
 		temp3.data = v
 		if k == len(temp2) - 1 {
@@ -159,6 +167,7 @@ func (l *List) PrintAll(sepstr ...string) {
 
 func (l *List) PrintAllln(sepstr ...string) {
 	if l.length == 0 {
+		fmt.Println("[]")
 		return
 	}
 	sep := ", "
@@ -188,14 +197,13 @@ func (l *List) Search(d interface{}) bool {
 func (l *List) Delete(d interface{}) (interface{}, error) {
 	if l.length == 0 {
 		return nil, errors.New("The list is empty.")
-	} else if l.length == 1 && reflect.DeepEqual(l.startingNode.data, d) == true {
-		ret := l.startingNode.data
-		l = InitializeList()
-		l.length--
-		return ret, nil
 	} else if reflect.DeepEqual(l.startingNode.data, d) == true {
+		if l.length == 1 {
+			l = InitializeList()
+		} else {
+			l.startingNode = l.startingNode.nextNode
+		}
 		ret := l.startingNode.data
-		l.startingNode = l.startingNode.nextNode
 		l.length--
 		return ret, nil
 	} else if l.length == 1 && reflect.DeepEqual(l.startingNode.data, d) == false {
@@ -234,10 +242,41 @@ func (l *List) Empty() ([]interface{}, error) {
 		return nil, errors.New("The list is empty already.")
 	}
 	ret := make([]interface{}, l.length)
-	for it, it2 := l.startingNode, 0; it.nextNode != nil; it, it2 = it.nextNode, it2 + 1 {
+	for it, it2 := l.startingNode, 0; it != nil; it, it2 = it.nextNode, it2 + 1 {
 		ret[it2] = it.data
 	}
-	l = InitializeList()
+	for e, e2 := new(node), l.startingNode; e2.nextNode != nil; e, e2 = e2, e2.nextNode {
+		e.nextNode = nil
+	}
+	l.startingNode = nil
+	l.endingNode = nil
+	l.length = 0
 	return ret, nil
+}
+
+func (l *List) Concat(d ...*List) {
+	for _, v := range d {
+		if v.length == 0 {
+			continue
+		}
+		for temp2 := v.startingNode; temp2 != nil; temp2 = temp2.nextNode {
+			l.Append(temp2.data)
+		}
+		l.length += v.length
+	}
+}
+
+func ConcatLists(d ...*List) *List {
+	ret := InitializeList()
+	for _, v := range d {
+		if v.length == 0 {
+			continue
+		}
+		for temp2 := v.startingNode; temp2 != nil; temp2 = temp2.nextNode {
+			ret.Append(temp2.data)
+		}
+		ret.length += v.length
+	}
+	return ret
 }
 
