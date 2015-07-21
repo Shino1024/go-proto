@@ -8,8 +8,6 @@ import (
 
 type Stack struct {
 	data   []interface{}
-	length int
-	maxlen int
 }
 
 const MaxCap = 1024
@@ -17,20 +15,17 @@ const MaxCap = 1024
 func InitializeStack(d ...interface{}) *Stack {
 	s := new(Stack)
 	s.data = make([]interface{}, 0, MaxCap)
-	s.length = 0
-	s.maxlen = MaxCap
 	s.Push(d...)
 	return s
 }
 
 func InitializeStackL(l int) *Stack {
 	s := new(Stack)
-	s.data = make([]interface{}, 0, l)
-	s.length = 0
 	if l < 1 || l > 10000000 {
-		l = MaxCap
+		s.data = make([]interface{}, 0, l)
+	} else {
+		s.data = make([]interface{}, 0, MaxCap)
 	}
-	s.maxlen = l
 	return s
 }
 
@@ -44,15 +39,13 @@ func InitializeStackA(d interface{}) *Stack {
 	for i := 0; i < temp.Len(); i++ {
 		s.data[i] = temp.Index(i).Interface()
 	}
-	s.length = temp.Len()
-	s.maxlen = MaxCap
 	return s
 }
 
 func (s *Stack) Get(w int) (interface{}, error) {
 	if w < 0 {
 		return nil, errors.New("Negative subscript.")
-	} else if w > s.length - 1 {
+	} else if w > len(s.data) - 1 {
 		return nil, errors.New("Subscript beyond the scope.")
 	}
 	fmt.Println(s.data[w])
@@ -62,7 +55,7 @@ func (s *Stack) Get(w int) (interface{}, error) {
 func (s *Stack) GetFromTo(f, t int) ([]interface{}, error) {
 	if f < 0 || t < 0 {
 		return nil, errors.New("Negative subscript.")
-	} else if t > s.length - 1 || f > s.length - 1 {
+	} else if t > len(s.data) - 1 || f > len(s.data) - 1 {
 		return nil, errors.New("Subscript beyond the scope.")
 	} else if t < f {
 		return nil, errors.New("The second argument is smaller than the second one.")
@@ -71,7 +64,7 @@ func (s *Stack) GetFromTo(f, t int) ([]interface{}, error) {
 }
 
 func (s *Stack) IsEmpty() bool {
-	if s.length != 0 {
+	if len(s.data) != 0 {
 		return false
 	}
 	return true
@@ -81,11 +74,11 @@ func (s *Stack) Top() (interface{}, error) {
 	if s.IsEmpty() == true {
 		return nil, errors.New("Can't get the top, because the stack is empty.")
 	}
-	return s.data[s.length - 1], nil
+	return s.data[len(s.data) - 1], nil
 }
 
 func (s *Stack) PushA(a interface{}) error {
-	if s.length == s.maxlen {
+	if len(s.data) == cap(s.data) {
 		return errors.New("Cannot push more, not enough space.")
 	}
 	temp := reflect.ValueOf(a)
@@ -93,19 +86,18 @@ func (s *Stack) PushA(a interface{}) error {
 	for i := 0; i < temp.Len(); i++ {
 		temp2[i] = temp.Index(i).Interface()
 	}
-	if s.maxlen < s.length + temp.Len() {
+	if cap(s.data) < len(s.data) + temp.Len() {
 		return errors.New("Insufficient space for the elements.")
 	}
-	temp3 := make([]interface{}, temp.Len() + s.length, s.maxlen)
-	copy(temp3[0:s.length], s.data)
-	copy(temp3[s.length:s.length + temp.Len()], temp2)
+	temp3 := make([]interface{}, temp.Len() + len(s.data), cap(s.data))
+	copy(temp3[0:len(s.data)], s.data)
+	copy(temp3[len(s.data):len(s.data) + temp.Len()], temp2)
 	s.data = temp3
-	s.length += temp.Len()
 	return nil
 }
 
 func (s *Stack) Push(a ...interface{}) error {
-	if s.length == s.maxlen {
+	if len(s.data) == cap(s.data) {
 		return errors.New("Cannot push more, not enough space.")
 	}
 	temp := reflect.ValueOf(a)
@@ -113,14 +105,13 @@ func (s *Stack) Push(a ...interface{}) error {
 	for i := 0; i < temp.Len(); i++ {
 		temp2[i] = temp.Index(i).Interface()
 	}
-	if s.maxlen < s.length + temp.Len() {
+	if cap(s.data) < len(s.data) + temp.Len() {
 		return errors.New("Insufficient space for the elements.")
 	}
-	temp3 := make([]interface{}, temp.Len() + s.length, s.maxlen)
-	copy(temp3[0:s.length], s.data)
-	copy(temp3[s.length:s.length + temp.Len()], temp2)
+	temp3 := make([]interface{}, temp.Len() + len(s.data), cap(s.data))
+	copy(temp3[0:len(s.data)], s.data)
+	copy(temp3[len(s.data):len(s.data) + temp.Len()], temp2)
 	s.data = temp3
-	s.length += temp.Len()
 	return nil
 }
 
@@ -128,30 +119,28 @@ func(s *Stack) Pop() (interface{}, error) {
 	if s.IsEmpty() == true {
 		return nil, errors.New("Can't pop anymore.")
 	}
-	s.length--
-	ret := s.data[s.length]
-	temp := make([]interface{}, s.length, s.maxlen)
-	copy(temp, s.data[:s.length])
+	ret := s.data[len(s.data) - 1]
+	temp := make([]interface{}, len(s.data) - 1, cap(s.data))
+	copy(temp, s.data[:len(s.data) - 1])
 	s.data = temp
 	return ret, nil
 }
 
 func (s *Stack) PopN(a int) ([]interface{}, error) {
-	if a > s.length {
+	if a > len(s.data) {
 		return nil, errors.New("Attempted to pop too much at once.")
 	}
 	ret := make([]interface{}, a)
 	copy(ret, s.data[len(s.data) - a:])
 	s.data = s.data[:len(s.data) - a]
-	s.length -= a
 	return ret, nil
 }
 
 func (s *Stack) Empty() []interface{} {
-	if s.length == 0 {
+	if len(s.data) == 0 {
 		return nil
 	}
-	ret, _ := s.PopN(s.length)
+	ret, _ := s.PopN(len(s.data))
 	return ret
 }
 
@@ -163,7 +152,7 @@ func (s *Stack) PrintAll(sepstr ...string) {
 	fmt.Print("[")
 	for k, v := range s.data {
 		fmt.Print(v)
-		if k == s.length - 1 {
+		if k == len(s.data) - 1 {
 			break
 		}
 		fmt.Print(sep)
@@ -179,7 +168,7 @@ func (s *Stack) PrintAllln(sepstr ...string) {
 	fmt.Print("[")
 	for k, v := range s.data {
 		fmt.Print(v)
-		if k == s.length - 1 {
+		if k == len(s.data) - 1 {
 			break
 		}
 		fmt.Print(sep)
@@ -190,16 +179,16 @@ func (s *Stack) PrintAllln(sepstr ...string) {
 func (s *Stack) Concat(s2 ...*Stack) error {
 	var length int
 	for _, v := range s2 {
-		length += v.length
+		length += len(v.data)
 	}
-	if length > s.maxlen {
+	if length > cap(s.data) {
 		return errors.New("Concatenation failed, not enough space.")
 	}
 	temp := make([]interface{}, length)
 	temp2 := 0
 	for _, v := range s2 {
-		copy(temp[temp2:temp2 + v.length], v.data)
-		temp2 += v.length
+		copy(temp[temp2:temp2 + len(v.data)], v.data)
+		temp2 += len(v.data)
 	}
 	s.Push(temp...)
 	return nil
@@ -215,13 +204,12 @@ func ConcatStacks(s ...*Stack) *Stack {
 }
 
 func (s *Stack) ChangeCapBy(a int) error {
-	if s.maxlen + a < 1 {
+	if cap(s.data) + a < 1 {
 		return errors.New("Attempted to lower the capacity to a non-positive level.")
-	} else if s.length > s.maxlen + a {
+	} else if len(s.data) > cap(s.data) + a {
 		return errors.New("The length cannot be greater than the maximal capacity.")
 	}
-	s.maxlen += a
-	temp := make([]interface{}, s.length, s.maxlen)
+	temp := make([]interface{}, len(s.data), cap(s.data) + a)
 	copy(temp, s.data)
 	s.data = temp
 	return nil
@@ -230,21 +218,20 @@ func (s *Stack) ChangeCapBy(a int) error {
 func (s *Stack) ChangeCapTo(a int) error {
 	if a < 1 {
 		return errors.New("Attempted to lower the capacity to a non-positive level.");
-	} else if s.length > a {
+	} else if len(s.data) > a {
 		return errors.New("The length cannot be greater than the maximal capacity.")
 	}
-	s.maxlen = a
-	temp := make([]interface{}, s.length, s.maxlen)
+	temp := make([]interface{}, len(s.data), cap(s.data))
 	copy(temp, s.data)
 	s.data = temp
 	return nil
 }
 
 func (s *Stack) Maxlen() int {
-	return s.maxlen
+	return cap(s.data)
 }
 
 func (s *Stack) Length() int {
-	return s.length
+	return len(s.data)
 }
 
