@@ -240,7 +240,7 @@ func (s *Set) IsEmpty() bool {
 	return true
 }
 
-func (s *Stack) PrintAll(sepstr ...string) {
+func (s *Set) PrintAll(sepstr ...string) {
 	sep := ", "
 	if len(sepstr) == 1 {
 		sep = sepstr[0]
@@ -256,7 +256,7 @@ func (s *Stack) PrintAll(sepstr ...string) {
 	fmt.Print("]")
 }
 
-func (s *Stack) PrintAllln(sepstr ...string) {
+func (s *Set) PrintAllln(sepstr ...string) {
 	sep := ", "
 	if len(sepstr) == 1 {
 		sep = sepstr[0]
@@ -318,11 +318,11 @@ func (s *Set) ChangeCapTo(a int) error {
 	return nil
 }
 
-func (s *Stack) Maxlen() int {
+func (s *Set) Maxlen() int {
 	return cap(s.data)
 }
 
-func (s *Stack) Length() int {
+func (s *Set) Length() int {
 	return len(s.data)
 }
 
