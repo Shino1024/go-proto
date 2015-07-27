@@ -14,4 +14,12 @@ Lots of functions are provided with these structures in order to ensure flexibil
 <br>
 To install the structures, copy the .go files from this repository to the src/proto
 folder, where src is specified in your Go path (GOPATH).
+<br>
+# List of the data structures:
+- linked list,
+- queue,
+- stack,
+- set,
+- tree.
+(The project is in development and many changes, as well as new data structures could be made.)
 </font>
