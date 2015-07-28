@@ -22,4 +22,8 @@ folder, where src is specified in your Go path (GOPATH).
 - set,
 - tree.
 (The project is in development and many changes, as well as new data structures could be made.)
+# TO DO:
+- priority queue,
+- graph,
+- map.
 </font>
