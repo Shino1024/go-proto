@@ -7,13 +7,13 @@ import (
 )
 
 type Set struct {
-	data   []interface{}
+	data []interface{}
 }
 
 const MaxCap = 1024
 
-func merge(a []interface{}, b []interface{}) []interface{} {
-	r := make([]interface{}, len(a) + len(b))
+func mergeInt(a []int64, b []int64) []int64 {
+	r := make([]int64, len(a) + len(b))
 	i := 0
 	j := 0
 	for i < len(a) && j < len(b) {
@@ -36,14 +36,150 @@ func merge(a []interface{}, b []interface{}) []interface{} {
 	return r
 }
 
-func mergeSort(items []interface{}) []interface{} {
+func mergeSortInt(items []int64) []int64 {
 	if len(items) < 2 {
 		return items
 	}
 	middle := len(items) / 2
-	a := mergeSort(items[:middle])
-	b := mergeSort(items[middle:])
-	return merge(a, b)
+	a := mergeSortInt(items[:middle])
+	b := mergeSortInt(items[middle:])
+	return mergeInt(a, b)
+}
+
+func mergeFloat(a []float64, b []float64) []float64 {
+	r := make([]float64, len(a) + len(b))
+	i := 0
+	j := 0
+	for i < len(a) && j < len(b) {
+		if a[i] <= b[j] {
+			r[i + j] = a[i]
+			i++
+		} else {
+			r[i + j] = b[j]
+			j++
+		}
+	}
+	for i < len(a) {
+		r[i + j] = a[i]
+		i++
+	}
+	for j < len(b) {
+		r[i + j] = b[j]
+		j++
+	}
+	return r
+}
+
+func mergeSortFloat(items []float64) []float64 {
+	if len(items) < 2 {
+		return items
+	}
+	middle := len(items) / 2
+	a := mergeSortFloat(items[:middle])
+	b := mergeSortFloat(items[middle:])
+	return mergeFloat(a, b)
+}
+
+func mergeString(a []string, b []string) []string {
+	r := make([]string, len(a) + len(b))
+	i := 0
+	j := 0
+	for i < len(a) && j < len(b) {
+		if a[i] <= b[j] {
+			r[i + j] = a[i]
+			i++
+		} else {
+			r[i + j] = b[j]
+			j++
+		}
+	}
+	for i < len(a) {
+		r[i + j] = a[i]
+		i++
+	}
+	for j < len(b) {
+		r[i + j] = b[j]
+		j++
+	}
+	return r
+}
+
+func mergeSortString(items []string) []string {
+	if len(items) < 2 {
+		return items
+	}
+	middle := len(items) / 2
+	a := mergeSortString(items[:middle])
+	b := mergeSortString(items[middle:])
+	return mergeString(a, b)
+}
+
+func mergeRune(a []rune, b []rune) []rune {
+	r := make([]rune, len(a) + len(b))
+	i := 0
+	j := 0
+	for i < len(a) && j < len(b) {
+		if a[i] <= b[j] {
+			r[i + j] = a[i]
+			i++
+		} else {
+			r[i + j] = b[j]
+			j++
+		}
+	}
+	for i < len(a) {
+		r[i + j] = a[i]
+		i++
+	}
+	for j < len(b) {
+		r[i + j] = b[j]
+		j++
+	}
+	return r
+}
+
+func mergeSortRune(items []rune) []rune {
+	if len(items) < 2 {
+		return items
+	}
+	middle := len(items) / 2
+	a := mergeSortRune(items[:middle])
+	b := mergeSortRune(items[middle:])
+	return mergeRune(a, b)
+}
+
+func mergeByte(a []byte, b []byte) []byte {
+	r := make([]byte, len(a) + len(b))
+	i := 0
+	j := 0
+	for i < len(a) && j < len(b) {
+		if a[i] <= b[j] {
+			r[i + j] = a[i]
+			i++
+		} else {
+			r[i + j] = b[j]
+			j++
+		}
+	}
+	for i < len(a) {
+		r[i + j] = a[i]
+		i++
+	}
+	for j < len(b) {
+		r[i + j] = b[j]
+		j++
+	}
+	return r
+}
+
+func mergeSortByte(items []byte) []byte {
+	if len(items) < 2 {
+		return items
+	}
+	middle := len(items) / 2
+	a := mergeSortByte(items[:middle])
+	b := mergeSortByte(items[middle:])
+	return mergeByte(a, b)
 }
 
 func InitializeSet(d ...interface{}) (*Set, error) {
@@ -51,8 +187,7 @@ func InitializeSet(d ...interface{}) (*Set, error) {
 	s := new(Set)
 	if temp.Len() == 0 {
 		s.data = make([]interface{}, 0)
-		s.length = 0
-		return s
+		return s, nil
 	}
 	temp2 := make([]interface{}, temp.Len())
 	for i := 0; i < temp.Len(); i++ {
@@ -69,13 +204,13 @@ func InitializeSet(d ...interface{}) (*Set, error) {
 	s.data = temp2
 	return s, nil
 }
-
+/*
 func InitializeSetA(d interface{}) (*Set, error) {
 	temp := reflect.ValueOf(d)
 	s := new(Set)
 	if temp.Len() == 0 {
 		s.data = make([]interface{}, 0)
-		return s
+		return s, nil
 	}
 	temp2 := make([]interface{}, temp.Len())
 	for i := 0; i < temp.Len(); i++ {
@@ -110,7 +245,7 @@ func (s *Set) Insert(d ...interface{}) error {
 		}
 	}
 	temp2 = mergeSort(temp2)
-	temp3 = make([]interface{}, len(s.data) + temp.Len(), cap(s.data))
+	temp3 := make([]interface{}, len(s.data) + temp.Len(), cap(s.data))
 	for i, j := 0, 0; ; i, j = i + 1, j + 1 {
 		if s.data[i] > temp2[j] && j < len(temp2) {
 			temp3[i + j] = temp2[j]
