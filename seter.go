@@ -1,7 +1,7 @@
 package seter
 
 import (
-	"fmt"
+//	"fmt"
 	"reflect"
 	"errors"
 )
@@ -114,8 +114,8 @@ func mergeSortString(items []string) []string {
 	return mergeString(a, b)
 }
 
-func mergeRune(a []rune, b []rune) []rune {
-	r := make([]rune, len(a) + len(b))
+func mergeUint(a []uint64, b []uint64) []uint64 {
+	r := make([]uint64, len(a) + len(b))
 	i := 0
 	j := 0
 	for i < len(a) && j < len(b) {
@@ -138,48 +138,14 @@ func mergeRune(a []rune, b []rune) []rune {
 	return r
 }
 
-func mergeSortRune(items []rune) []rune {
+func mergeSortUint(items []uint64) []uint64 {
 	if len(items) < 2 {
 		return items
 	}
 	middle := len(items) / 2
-	a := mergeSortRune(items[:middle])
-	b := mergeSortRune(items[middle:])
-	return mergeRune(a, b)
-}
-
-func mergeByte(a []byte, b []byte) []byte {
-	r := make([]byte, len(a) + len(b))
-	i := 0
-	j := 0
-	for i < len(a) && j < len(b) {
-		if a[i] <= b[j] {
-			r[i + j] = a[i]
-			i++
-		} else {
-			r[i + j] = b[j]
-			j++
-		}
-	}
-	for i < len(a) {
-		r[i + j] = a[i]
-		i++
-	}
-	for j < len(b) {
-		r[i + j] = b[j]
-		j++
-	}
-	return r
-}
-
-func mergeSortByte(items []byte) []byte {
-	if len(items) < 2 {
-		return items
-	}
-	middle := len(items) / 2
-	a := mergeSortByte(items[:middle])
-	b := mergeSortByte(items[middle:])
-	return mergeByte(a, b)
+	a := mergeSortUint(items[:middle])
+	b := mergeSortUint(items[middle:])
+	return mergeUint(a, b)
 }
 
 func InitializeSet(d ...interface{}) (*Set, error) {
@@ -189,20 +155,86 @@ func InitializeSet(d ...interface{}) (*Set, error) {
 		s.data = make([]interface{}, 0)
 		return s, nil
 	}
-	temp2 := make([]interface{}, temp.Len())
-	for i := 0; i < temp.Len(); i++ {
-		temp2[i] = temp.Index(i).Interface()
-	}
-	for i := 0; i < temp.Len(); i++ {
-		for j := i + 1; j < temp.Len(); j++ {
-			if temp2[i] == temp2[j] {
-				return nil, errors.New("Found the same elements in the given data.")
+	switch temp.Kind() {
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		temp2 := make([]int64, temp.Len(), MaxCap)
+		for i := 0; i < temp.Len(); i++ {
+			temp2[i] = reflect.ValueOf(temp2[i]).Int()
+		}
+		for i := 0; i < temp.Len(); i++ {
+			for j := i + 1; j < temp.Len(); j++ {
+				if temp2[i] == temp2[j] {
+					return nil, errors.New("Found the same elements in the given data.")
+				}
 			}
 		}
+		temp2 = mergeSortInt(temp2)
+		temp3 := make([]interface{}, temp.Len())
+		for i := 0; i < temp.Len(); i++ {
+			temp3[i] = reflect.ValueOf(temp2[i]).Interface()
+		}
+		s.data = temp3
+		return s, nil
+	case reflect.Float32, reflect.Float64:
+		temp2 := make([]float64, temp.Len(), MaxCap)
+		for i := 0; i < temp.Len(); i++ {
+			temp2[i] = reflect.ValueOf(temp2[i]).Float()
+		}
+		for i := 0; i < temp.Len(); i++ {
+			for j := i + 1; j < temp.Len(); j++ {
+				if temp2[i] == temp2[j] {
+					return nil, errors.New("Found the same elements in the given data.")
+				}
+			}
+		}
+		temp2 = mergeSortFloat(temp2)
+		temp3 := make([]interface{}, temp.Len())
+		for i := 0; i < temp.Len(); i++ {
+			temp3[i] = reflect.ValueOf(temp2[i]).Interface()
+		}
+		s.data = temp3
+		return s, nil
+	case reflect.String:
+		temp2 := make([]string, temp.Len(), MaxCap)
+		for i := 0; i < temp.Len(); i++ {
+			temp2[i] = reflect.ValueOf(temp2[i]).String()
+		}
+		for i := 0; i < temp.Len(); i++ {
+			for j := i + 1; j < temp.Len(); j++ {
+				if temp2[i] == temp2[j] {
+					return nil, errors.New("Found the same elements in the given data.")
+				}
+			}
+		}
+		temp2 = mergeSortString(temp2)
+		temp3 := make([]interface{}, temp.Len())
+		for i := 0; i < temp.Len(); i++ {
+			temp3[i] = reflect.ValueOf(temp2[i]).Interface()
+		}
+		s.data = temp3
+		return s, nil
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		temp2 := make([]uint64, temp.Len(), MaxCap)
+		for i := 0; i < temp.Len(); i++ {
+			temp2[i] = reflect.ValueOf(temp2[i]).Uint()
+		}
+		for i := 0; i < temp.Len(); i++ {
+			for j := i + 1; j < temp.Len(); j++ {
+				if temp2[i] == temp2[j] {
+					return nil, errors.New("Found the same elements in the given data.")
+				}
+			}
+		}
+		temp2 = mergeSortUint(temp2)
+		temp3 := make([]interface{}, temp.Len())
+		for i := 0; i < temp.Len(); i++ {
+			temp3[i] = reflect.ValueOf(temp2[i]).Interface()
+		}
+		s.data = temp3
+		return s, nil
+	default:
+		return nil, errors.New("Unsupported type.")
 	}
-	temp2 = mergeSort(temp2)
-	s.data = temp2
-	return s, nil
 }
 /*
 func InitializeSetA(d interface{}) (*Set, error) {
@@ -460,4 +492,4 @@ func (s *Set) Maxlen() int {
 func (s *Set) Length() int {
 	return len(s.data)
 }
-
+*/
