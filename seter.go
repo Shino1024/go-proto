@@ -319,7 +319,7 @@ func (s *Set) InsertA(d interface{}) error {
 	}
 	s.data = temp3
 }
-
+*/
 func (s *Set) Search(d interface{}) int {
 	min, max := 0, len(s.data) - 1
 	for max >= min {
@@ -334,7 +334,7 @@ func (s *Set) Search(d interface{}) int {
 	}
 	return -1
 }
-
+/*
 func (s *Set) Delete(d ...interface{}) {
 	temp := reflect.ValueOf(d)
 	if temp.Len() == 0 {
@@ -399,7 +399,7 @@ func (s *Set) GetFromTo(f, t int) ([]interface{}, error) {
 	}
 	return s.data[f:t], nil
 }
-
+*/
 func (s *Set) IsEmpty() bool {
 	if len(s.data) != 0 {
 		return false
@@ -492,4 +492,4 @@ func (s *Set) Maxlen() int {
 func (s *Set) Length() int {
 	return len(s.data)
 }
-*/
+
