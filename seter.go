@@ -1,332 +1,109 @@
 package seter
 
 import (
-//	"fmt"
-	"reflect"
+	"fmt"
+	"sort"
 	"errors"
 )
 
 type Set struct {
-	data []interface{}
+	data []Lesser
 }
 
-const MaxCap = 1024
+type Lesser interface {
+	Less(other interface{}) bool
+}
 
-func mergeInt(a []int64, b []int64) []int64 {
-	r := make([]int64, len(a) + len(b))
-	i := 0
-	j := 0
-	for i < len(a) && j < len(b) {
-		if a[i] <= b[j] {
-			r[i + j] = a[i]
-			i++
-		} else {
-			r[i + j] = b[j]
-			j++
+func (s *Set) insert(arg Lesser) {
+	if s.Len() == 0 {
+		s.data = make([]Lesser, 1)
+		s.data[0] = arg
+	} else {
+		OUTSIDELOOP:
+		for i := 0; ; i++ {
+			switch {
+				case i == s.Len():
+				s.data = append(s.data, arg)
+				break OUTSIDELOOP
+
+				case !arg.Less(s.data[i]) && !s.data[i].Less(arg):
+				break OUTSIDELOOP
+
+				case !s.data[i].Less(arg):
+				s.data = append(s.data[:i], append([]Lesser{arg}, s.data[i:]...)...)
+				break OUTSIDELOOP
+			}
 		}
 	}
-	for i < len(a) {
-		r[i + j] = a[i]
-		i++
-	}
-	for j < len(b) {
-		r[i + j] = b[j]
-		j++
-	}
-	return r
 }
 
-func mergeSortInt(items []int64) []int64 {
-	if len(items) < 2 {
-		return items
-	}
-	middle := len(items) / 2
-	a := mergeSortInt(items[:middle])
-	b := mergeSortInt(items[middle:])
-	return mergeInt(a, b)
-}
-
-func mergeFloat(a []float64, b []float64) []float64 {
-	r := make([]float64, len(a) + len(b))
-	i := 0
-	j := 0
-	for i < len(a) && j < len(b) {
-		if a[i] <= b[j] {
-			r[i + j] = a[i]
-			i++
-		} else {
-			r[i + j] = b[j]
-			j++
-		}
-	}
-	for i < len(a) {
-		r[i + j] = a[i]
-		i++
-	}
-	for j < len(b) {
-		r[i + j] = b[j]
-		j++
-	}
-	return r
-}
-
-func mergeSortFloat(items []float64) []float64 {
-	if len(items) < 2 {
-		return items
-	}
-	middle := len(items) / 2
-	a := mergeSortFloat(items[:middle])
-	b := mergeSortFloat(items[middle:])
-	return mergeFloat(a, b)
-}
-
-func mergeString(a []string, b []string) []string {
-	r := make([]string, len(a) + len(b))
-	i := 0
-	j := 0
-	for i < len(a) && j < len(b) {
-		if a[i] <= b[j] {
-			r[i + j] = a[i]
-			i++
-		} else {
-			r[i + j] = b[j]
-			j++
-		}
-	}
-	for i < len(a) {
-		r[i + j] = a[i]
-		i++
-	}
-	for j < len(b) {
-		r[i + j] = b[j]
-		j++
-	}
-	return r
-}
-
-func mergeSortString(items []string) []string {
-	if len(items) < 2 {
-		return items
-	}
-	middle := len(items) / 2
-	a := mergeSortString(items[:middle])
-	b := mergeSortString(items[middle:])
-	return mergeString(a, b)
-}
-
-func mergeUint(a []uint64, b []uint64) []uint64 {
-	r := make([]uint64, len(a) + len(b))
-	i := 0
-	j := 0
-	for i < len(a) && j < len(b) {
-		if a[i] <= b[j] {
-			r[i + j] = a[i]
-			i++
-		} else {
-			r[i + j] = b[j]
-			j++
-		}
-	}
-	for i < len(a) {
-		r[i + j] = a[i]
-		i++
-	}
-	for j < len(b) {
-		r[i + j] = b[j]
-		j++
-	}
-	return r
-}
-
-func mergeSortUint(items []uint64) []uint64 {
-	if len(items) < 2 {
-		return items
-	}
-	middle := len(items) / 2
-	a := mergeSortUint(items[:middle])
-	b := mergeSortUint(items[middle:])
-	return mergeUint(a, b)
-}
-
-func InitializeSet(d ...interface{}) (*Set, error) {
-	temp := reflect.ValueOf(d)
+func InitializeSet(d ...interface{}) *Set {
 	s := new(Set)
-	if temp.Len() == 0 {
-		s.data = make([]interface{}, 0)
-		return s, nil
+	if len(d) == 0 {
+		s.data = make([]Lesser, 0)
+		return s
 	}
-	switch temp.Kind() {
-	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		temp2 := make([]int64, temp.Len(), MaxCap)
-		for i := 0; i < temp.Len(); i++ {
-			temp2[i] = reflect.ValueOf(temp2[i]).Int()
-		}
-		for i := 0; i < temp.Len(); i++ {
-			for j := i + 1; j < temp.Len(); j++ {
-				if temp2[i] == temp2[j] {
-					return nil, errors.New("Found the same elements in the given data.")
-				}
-			}
-		}
-		temp2 = mergeSortInt(temp2)
-		temp3 := make([]interface{}, temp.Len())
-		for i := 0; i < temp.Len(); i++ {
-			temp3[i] = reflect.ValueOf(temp2[i]).Interface()
-		}
-		s.data = temp3
-		return s, nil
-	case reflect.Float32, reflect.Float64:
-		temp2 := make([]float64, temp.Len(), MaxCap)
-		for i := 0; i < temp.Len(); i++ {
-			temp2[i] = reflect.ValueOf(temp2[i]).Float()
-		}
-		for i := 0; i < temp.Len(); i++ {
-			for j := i + 1; j < temp.Len(); j++ {
-				if temp2[i] == temp2[j] {
-					return nil, errors.New("Found the same elements in the given data.")
-				}
-			}
-		}
-		temp2 = mergeSortFloat(temp2)
-		temp3 := make([]interface{}, temp.Len())
-		for i := 0; i < temp.Len(); i++ {
-			temp3[i] = reflect.ValueOf(temp2[i]).Interface()
-		}
-		s.data = temp3
-		return s, nil
-	case reflect.String:
-		temp2 := make([]string, temp.Len(), MaxCap)
-		for i := 0; i < temp.Len(); i++ {
-			temp2[i] = reflect.ValueOf(temp2[i]).String()
-		}
-		for i := 0; i < temp.Len(); i++ {
-			for j := i + 1; j < temp.Len(); j++ {
-				if temp2[i] == temp2[j] {
-					return nil, errors.New("Found the same elements in the given data.")
-				}
-			}
-		}
-		temp2 = mergeSortString(temp2)
-		temp3 := make([]interface{}, temp.Len())
-		for i := 0; i < temp.Len(); i++ {
-			temp3[i] = reflect.ValueOf(temp2[i]).Interface()
-		}
-		s.data = temp3
-		return s, nil
-	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-		temp2 := make([]uint64, temp.Len(), MaxCap)
-		for i := 0; i < temp.Len(); i++ {
-			temp2[i] = reflect.ValueOf(temp2[i]).Uint()
-		}
-		for i := 0; i < temp.Len(); i++ {
-			for j := i + 1; j < temp.Len(); j++ {
-				if temp2[i] == temp2[j] {
-					return nil, errors.New("Found the same elements in the given data.")
-				}
-			}
-		}
-		temp2 = mergeSortUint(temp2)
-		temp3 := make([]interface{}, temp.Len())
-		for i := 0; i < temp.Len(); i++ {
-			temp3[i] = reflect.ValueOf(temp2[i]).Interface()
-		}
-		s.data = temp3
-		return s, nil
-	default:
-		return nil, errors.New("Unsupported type.")
-	}
+	s.Insert(d...)
+	return s
 }
-/*
-func InitializeSetA(d interface{}) (*Set, error) {
-	temp := reflect.ValueOf(d)
+
+func InitializeSetA(d []Lesser) *Set {
 	s := new(Set)
-	if temp.Len() == 0 {
-		s.data = make([]interface{}, 0)
-		return s, nil
+	if len(d) == 0 {
+		s.data = make([]Lesser, 0)
+		return s
 	}
-	temp2 := make([]interface{}, temp.Len())
-	for i := 0; i < temp.Len(); i++ {
-		temp2[i] = temp.Index(i).Interface()
-	}
-	for i := 0; i < temp.Len(); i++ {
-		for j := i + 1; j < temp.Len(); j++ {
-			if temp2[i] == temp2[j] {
-				return nil, errors.New("Found the same elements in the given data.")
-			}
-		}
-	}
-	temp2 = mergeSort(temp2)
-	s.data = temp2
-	return s, nil
+	s.Insert(d...)
+	return s
 }
 
-func (s *Set) Insert(d ...interface{}) error {
-	temp := reflect.ValueOf(d)
-	if temp.Len() == 0 {
-		return nil
-	}
-	temp2 := make([]interface{}, temp.Len())
-	for i := 0; i < temp.Len(); i++ {
-		temp2[i] = temp.Index(i).Interface()
-	}
-	for i := 0; i < temp.Len(); i++ {
-		for j := i + 1; j < temp.Len(); j++ {
-			if temp2[i] == temp2[j] {
-				return errors.New("Found the same elements in the given data.")
+func (s *Set) Insert(d ...Lesser) {
+	for j := 0; j < len(d); j++ {
+		OUTSIDELOOP:
+		for i := 0; ; i++ {
+			switch {
+				case i == s.Len():
+				s.data = append(s.data, d[j])
+				break OUTSIDELOOP
+
+				case !d[j].Less(s.data[i]) && !s.data[i].Less(d[j]):
+				break OUTSIDELOOP
+
+				case !s.data[i].Less(arg):
+				s.data = append(s.data[:i], append([]Lesser{d[j]}, s.data[i:]...)...)
+				break OUTSIDELOOP
 			}
 		}
 	}
-	temp2 = mergeSort(temp2)
-	temp3 := make([]interface{}, len(s.data) + temp.Len(), cap(s.data))
-	for i, j := 0, 0; ; i, j = i + 1, j + 1 {
-		if s.data[i] > temp2[j] && j < len(temp2) {
-			temp3[i + j] = temp2[j]
-			j++
-		} else if i < len(s.data) {
-			temp3[i + j] = s.data[i]
-			i++
-		}
-	}
-	s.data = temp3
 }
 
-func (s *Set) InsertA(d interface{}) error {
-	temp := reflect.ValueOf(d)
-	if temp.Len() == 0 {
-		return nil
-	}
-	temp2 := make([]interface{}, temp.Len())
-	for i := 0; i < temp.Len(); i++ {
-		temp2[i] = temp.Index(i).Interface()
-	}
-	for i := 0; i < temp.Len(); i++ {
-		for j := i + 1; j < temp.Len(); j++ {
-			if temp2[i] == temp2[j] {
-				return errors.New("Found the same elements in the given data.")
+func (s *Set) InsertA(d []Lesser) error {
+	for j := 0; j < len(d); j++ {
+		OUTSIDELOOP:
+		for i := 0; ; i++ {
+			switch {
+				case i == s.Len():
+				s.data = append(s.data, d[j])
+				break OUTSIDELOOP
+
+				case !d[j].Less(s.data[i]) && !s.data[i].Less(d[j]):
+				break OUTSIDELOOP
+
+				case !s.data[i].Less(arg):
+				s.data = append(s.data[:i], append([]Lesser{d[j]}, s.data[i:]...)...)
+				break OUTSIDELOOP
 			}
 		}
 	}
-	temp2 = mergeSort(temp2)
-	temp3 = make([]interface{}, len(s.data) + temp.Len(), cap(s.data))
-	for i, j := 0, 0; ; i, j = i + 1, j + 1 {
-		if s.data[i] > temp2[j] && j < len(temp2) {
-			temp3[i + j] = temp2[j]
-			j++
-		} else if i < len(s.data) {
-			temp3[i + j] = s.data[i]
-			i++
-		}
-	}
-	s.data = temp3
 }
-*/
-func (s *Set) Search(d interface{}) int {
+
+func (s *Set) Search(d Lesser) int {
 	min, max := 0, len(s.data) - 1
 	for max >= min {
 		mid := (max + min) / 2
-		if s.data[mid] == d {
+		if !s.data[mid].Less(d) && !d.Less(s.data[mid]) {
 			return mid
-		} else if s.data[mid] < d {
+		} else if s.data[mid].Less(d) {
 			min = mid + 1
 		} else {
 			max = mid - 1
@@ -334,62 +111,51 @@ func (s *Set) Search(d interface{}) int {
 	}
 	return -1
 }
-/*
-func (s *Set) Delete(d ...interface{}) {
-	temp := reflect.ValueOf(d)
-	if temp.Len() == 0 {
+
+func (s *Set) Delete(d ...Lesser) {
+	if len(s.data) == 0 {
 		return
 	}
-	temp2 := make([]interface{}, temp.Len())
-	for i := 0; i < temp.Len(); i++ {
-		temp2[i] = temp.Index(i).Interface()
-	}
-	for _, v := temp2 {
+	for _, v := range d {
 		if check := s.Search(v); check == -1 {
 			continue
 		} else if len(s.data) - 1 == check {
-			s.data = s.data[len(s.data) - 2]
+			s.data = s.data[0:len(s.data) - 1]
 		} else {
-			temp3 := s.data[check + 1:]
+			temp := s.data[check + 1:]
 			s.data = s.data[:check]
-			s.data = append(s.data, temp3)
+			s.data = append(s.data, temp...)
 		}
 	}
 }
 
-func (s *Set) DeleteA(d interface{}) {
-	temp := reflect.ValueOf(d)
-	if temp.Len() == 0 {
+func (s *Set) DeleteA(d []Lesser) {
+	if len(s.data) == 0 {
 		return
 	}
-	temp2 := make([]interface{}, temp.Len())
-	for i := 0; i < temp.Len(); i++ {
-		temp2[i] = temp.Index(i).Interface()
-	}
-	for _, v := temp2 {
+	for _, v := range d {
 		if check := s.Search(v); check == -1 {
 			continue
 		} else if len(s.data) - 1 == check {
-			s.data = s.data[len(s.data) - 2]
+			s.data = s.data[0:len(s.data) - 1]
 		} else {
-			temp3 := s.data[check + 1:]
+			temp := s.data[check + 1:]
 			s.data = s.data[:check]
-			s.data = append(s.data, temp3)
+			s.data = append(s.data, temp...)
 		}
 	}
 }
 
-func (s *Set) Get(w int) (interface{}, error) {
+func (s *Set) Get(w int) (Lesser, error) {
 	if w < 0 {
 		return nil, errors.New("Negative subscript.")
 	} else if w > len(s.data) - 1 {
 		return nil, errors.New("Subscript beyond the scope.")
 	}
-	fmt.Println(s.data[w])
 	return s.data[w], nil
 }
 
-func (s *Set) GetFromTo(f, t int) ([]interface{}, error) {
+func (s *Set) GetFromTo(f, t int) ([]Lesser, error) {
 	if f < 0 || t < 0 {
 		return nil, errors.New("Negative subscript.")
 	} else if t > len(s.data) - 1 || f > len(s.data) - 1 {
@@ -399,7 +165,11 @@ func (s *Set) GetFromTo(f, t int) ([]interface{}, error) {
 	}
 	return s.data[f:t], nil
 }
-*/
+
+func (s *Set) GetAll() []Lesser {
+	return s.data
+}
+
 func (s *Set) IsEmpty() bool {
 	if len(s.data) != 0 {
 		return false
@@ -439,57 +209,38 @@ func (s *Set) PrintAllln(sepstr ...string) {
 	fmt.Println("]")
 }
 
-func (s *Set) Max() interface{} {
-	if s.IsEmpty() != false {
+func (s *Set) Max() Lesser {
+	if len(s.data) == 0 {
 		return nil
 	}
 	return s.data[len(s.data) - 1]
 }
 
-func (s *Set) Min() interface{} {
-	if s.IsEmpty() != false {
+func (s *Set) Min() Lesser {
+	if len(s.data) == 0 {
 		return nil
 	}
 	return s.data[0]
 }
 
-func (s *Set) Empty() []interface{} {
+func (s *Set) Empty() []Lesser {
 	if len(s.data) == 0 {
 		return nil
 	}
-	ret, _ := s.PopN(len(s.data))
+	ret, _ := s.GetFromTo(0, len(s.data) - 1)
+	s.data := make([]Lesser, 0)
 	return ret
 }
 
-func (s *Set) ChangeCapBy(a int) error {
-	if cap(s.data) + a < 1 {
-		return errors.New("Attempted to lower the capacity to a non-positive level.")
-	} else if len(s.data) > cap(s.data) + a {
-		return errors.New("The length cannot be greater than the maximal capacity.")
-	}
-	temp := make([]interface{}, len(s.data), cap(s.data) + a)
-	copy(temp, s.data)
-	s.data = temp
-	return nil
-}
-
-func (s *Set) ChangeCapTo(a int) error {
-	if a < 1 {
-		return errors.New("Attempted to lower the capacity to a non-positive level.");
-	} else if len(s.data) > a {
-		return errors.New("The length cannot be greater than the maximal capacity.")
-	}
-	temp := make([]interface{}, len(s.data), cap(s.data))
-	copy(temp, s.data)
-	s.data = temp
-	return nil
-}
-
-func (s *Set) Maxlen() int {
-	return cap(s.data)
-}
-
-func (s *Set) Length() int {
+func (s *Set) Len() int {
 	return len(s.data)
 }
 
+func Union(s ...*Set) *Set {
+	ret := InitializeSet()
+	for _, v := range s {
+		ret.AddA(v.GetAll())
+	}
+
+	return ret
+}

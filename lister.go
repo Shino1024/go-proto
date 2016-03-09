@@ -279,4 +279,3 @@ func ConcatLists(d ...*List) *List {
 	}
 	return ret
 }
-
