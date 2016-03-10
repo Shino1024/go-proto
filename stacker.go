@@ -78,7 +78,7 @@ func (s *Stack) PushA(a interface{}) error {
 	return nil
 }
 
-func (s *Stack) Push(a ...interface{}) error {
+func (s *Stack) Push(a ...interface{}) {
 	temp := reflect.ValueOf(a)
 	temp2 := make([]interface{}, temp.Len())
 	for i := 0; i < temp.Len(); i++ {
@@ -88,7 +88,6 @@ func (s *Stack) Push(a ...interface{}) error {
 	copy(temp3[0:len(s.data)], s.data)
 	copy(temp3[len(s.data):len(s.data) + temp.Len()], temp2)
 	s.data = temp3
-	return nil
 }
 
 func(s *Stack) Pop() (interface{}, error) {
@@ -152,7 +151,7 @@ func (s *Stack) PrintAllln(sepstr ...string) {
 	fmt.Println("]")
 }
 
-func (s *Stack) Concat(s2 ...*Stack) error {
+func (s *Stack) Concat(s2 ...*Stack) {
 	var length int
 	for _, v := range s2 {
 		length += len(v.data)
@@ -164,7 +163,6 @@ func (s *Stack) Concat(s2 ...*Stack) error {
 		temp2 += len(v.data)
 	}
 	s.Push(temp...)
-	return nil
 }
 
 func ConcatStacks(s ...*Stack) *Stack {

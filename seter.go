@@ -6,35 +6,12 @@ import (
 	"errors"
 )
 
-type Set struct {
-	data []Lesser
-}
-
 type Lesser interface {
 	Less(other interface{}) bool
 }
 
-func (s *Set) insert(arg Lesser) {
-	if s.Len() == 0 {
-		s.data = make([]Lesser, 1)
-		s.data[0] = arg
-	} else {
-		OUTSIDELOOP:
-		for i := 0; ; i++ {
-			switch {
-				case i == s.Len():
-				s.data = append(s.data, arg)
-				break OUTSIDELOOP
-
-				case !arg.Less(s.data[i]) && !s.data[i].Less(arg):
-				break OUTSIDELOOP
-
-				case !s.data[i].Less(arg):
-				s.data = append(s.data[:i], append([]Lesser{arg}, s.data[i:]...)...)
-				break OUTSIDELOOP
-			}
-		}
-	}
+type Set struct {
+	data []Lesser
 }
 
 func InitializeSet(d ...interface{}) *Set {
@@ -236,11 +213,51 @@ func (s *Set) Len() int {
 	return len(s.data)
 }
 
+
 func Union(s ...*Set) *Set {
 	ret := InitializeSet()
 	for _, v := range s {
 		ret.AddA(v.GetAll())
 	}
 
+	return ret
+}
+
+func (s *Set) Subtract(other ...*Set) {
+	for _, v := range other {
+		for i := 0; i < v.Len(); i++ {
+			temp, err := v.Get(i)
+			if err == nil {
+				s.Delete(temp)
+			}
+		}
+	}
+}
+
+func Difference(s ...*Set) *Set {
+	if len(s) == 0 {
+		return InitializeSet()
+	} else if len(s) == 1 {
+		return s[0]
+	}
+
+	ret := s[0]
+	for i := 1; i < len(s); i++ {
+		for j := 0; j < s[i].Len(); j++ {
+			temp, _ := s[i].Get(j)
+			if ret.Search(temp) == -1 {
+				ret.Add(temp)
+			} else {
+				ret.Delete(temp)
+			}
+		}
+	}
+
+	return ret
+}
+
+func Intersection(s ...*Set) *Set {
+	ret := Union(s...)
+	Union(s...).Subtract(Difference(s...))
 	return ret
 }
