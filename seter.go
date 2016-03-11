@@ -2,7 +2,6 @@ package seter
 
 import (
 	"fmt"
-	"sort"
 	"errors"
 )
 
@@ -14,7 +13,7 @@ type Set struct {
 	data []Lesser
 }
 
-func InitializeSet(d ...interface{}) *Set {
+func InitializeSet(d Lesser) *Set {
 	s := new(Set)
 	if len(d) == 0 {
 		s.data = make([]Lesser, 0)
@@ -46,7 +45,7 @@ func (s *Set) Insert(d ...Lesser) {
 				case !d[j].Less(s.data[i]) && !s.data[i].Less(d[j]):
 				break OUTSIDELOOP
 
-				case !s.data[i].Less(arg):
+				case !s.data[i].Less(d[j]):
 				s.data = append(s.data[:i], append([]Lesser{d[j]}, s.data[i:]...)...)
 				break OUTSIDELOOP
 			}
@@ -66,7 +65,7 @@ func (s *Set) InsertA(d []Lesser) error {
 				case !d[j].Less(s.data[i]) && !s.data[i].Less(d[j]):
 				break OUTSIDELOOP
 
-				case !s.data[i].Less(arg):
+				case !s.data[i].Less(d[j]):
 				s.data = append(s.data[:i], append([]Lesser{d[j]}, s.data[i:]...)...)
 				break OUTSIDELOOP
 			}
@@ -213,11 +212,10 @@ func (s *Set) Len() int {
 	return len(s.data)
 }
 
-
 func Union(s ...*Set) *Set {
 	ret := InitializeSet()
 	for _, v := range s {
-		ret.AddA(v.GetAll())
+		ret.InsertA(v.GetAll())
 	}
 
 	return ret
@@ -241,12 +239,13 @@ func Difference(s ...*Set) *Set {
 		return s[0]
 	}
 
-	ret := s[0]
+	ret := InitializeSet()
+	ret.InsertA(s[0].GetAll())
 	for i := 1; i < len(s); i++ {
 		for j := 0; j < s[i].Len(); j++ {
 			temp, _ := s[i].Get(j)
 			if ret.Search(temp) == -1 {
-				ret.Add(temp)
+				ret.Insert(temp)
 			} else {
 				ret.Delete(temp)
 			}
@@ -258,6 +257,7 @@ func Difference(s ...*Set) *Set {
 
 func Intersection(s ...*Set) *Set {
 	ret := Union(s...)
-	Union(s...).Subtract(Difference(s...))
+	ret.Subtract(Difference(s...))
+
 	return ret
 }
