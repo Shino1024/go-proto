@@ -90,32 +90,32 @@ func (s *Stack) Push(a ...interface{}) {
 	s.data = temp3
 }
 
-func(s *Stack) Pop() (interface{}, error) {
+func(s *Stack) Pop() interface{} {
 	if s.IsEmpty() == true {
-		return nil, errors.New("Can't pop anymore.")
+		return nil
 	}
 	ret := s.data[len(s.data) - 1]
 	temp := make([]interface{}, len(s.data) - 1)
 	copy(temp, s.data[:len(s.data) - 1])
 	s.data = temp
-	return ret, nil
+	return ret
 }
 
-func (s *Stack) PopN(a int) ([]interface{}, error) {
+func (s *Stack) PopN(a int) []interface{} {
 	if a > len(s.data) {
-		return nil, errors.New("Attempted to pop too much at once.")
+		return nil
 	}
 	ret := make([]interface{}, a)
 	copy(ret, s.data[len(s.data) - a:])
 	s.data = s.data[:len(s.data) - a]
-	return ret, nil
+	return ret
 }
 
 func (s *Stack) Empty() []interface{} {
 	if len(s.data) == 0 {
 		return nil
 	}
-	ret, _ := s.PopN(len(s.data))
+	ret := s.PopN(len(s.data))
 	return ret
 }
 

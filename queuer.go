@@ -2,7 +2,6 @@ package queuer
 
 import (
 	"fmt"
-	"errors"
 	"reflect"
 )
 
@@ -11,7 +10,6 @@ type Queue struct {
 	endingNode   *node
 	length       int
 }
-
 
 type node struct {
 	nextNode *node
@@ -48,7 +46,6 @@ func InitializeQueue(d ...interface{}) *Queue {
 	return q
 }
 
-
 func InitializeQueueA(d interface{}) *Queue {
 	temp := reflect.ValueOf(d)
 	q := new(Queue)
@@ -79,14 +76,12 @@ func InitializeQueueA(d interface{}) *Queue {
 	return q
 }
 
-
 func (q *Queue) IsEmpty() bool {
 	if q.length != 0 {
 		return false
 	}
 	return true
 }
-
 
 func (q *Queue) Length() int {
 	return q.length
@@ -150,7 +145,6 @@ func (q *Queue) PushA(d interface{}) {
 	q.length += temp.Len()
 }
 
-
 func (q *Queue) PrintAll(sepstr ...string) {
 	if q.length == 0 {
 		return
@@ -190,7 +184,6 @@ func (q *Queue) PrintAllln(sepstr ...string) {
 	fmt.Println("]")
 }
 
-
 func (q *Queue) Search(d interface{}) bool {
 	for temp := q.startingNode; temp != nil; temp = temp.nextNode {
 		if reflect.DeepEqual(temp.data, d) {
@@ -200,19 +193,19 @@ func (q *Queue) Search(d interface{}) bool {
 	return false
 }
 
-func (q *Queue) Pop() (interface{}, error) {
+func (q *Queue) Pop() interface{} {
 	if q.length == 0 {
-		return nil, errors.New("The queue is empty.")
+		return nil
 	}
 	ret := q.startingNode.data
 	q.startingNode = q.startingNode.nextNode
 	q.length--
-	return ret, nil
+	return ret
 }
 
-func (q *Queue) PopN(n int) ([]interface{}, error) {
+func (q *Queue) PopN(n int) []interface{} {
 	if n > q.length {
-		return nil, errors.New("The argument is smaller than the amount of the elements in the queue.")
+		return nil
 	} else if n == q.length {
 		return q.Empty()
 	}
@@ -225,12 +218,12 @@ func (q *Queue) PopN(n int) ([]interface{}, error) {
 		}
 	}
 	q.length -= n
-	return ret, nil
+	return ret
 }
 
-func (q *Queue) Empty() ([]interface{}, error) {
+func (q *Queue) Empty() []interface{} {
 	if q.length == 0 {
-		return nil, errors.New("The queue is empty already.")
+		return nil
 	}
 	ret := make([]interface{}, q.length)
 	for it, it2 := q.startingNode, 0; it != nil; it, it2 = it.nextNode, it2 + 1 {
@@ -242,8 +235,32 @@ func (q *Queue) Empty() ([]interface{}, error) {
 	q.startingNode = nil
 	q.endingNode = nil
 	q.length = 0
-	return ret, nil
+	return ret
 }
 
+func (q *Queue) Concat(d ...*Queue) {
+	for _, v := range d {
+		if v.length == 0 {
+			continue
+		}
+		for temp2 := v.startingNode; temp2 != nil; temp2 = temp2.nextNode {
+			q.Push(temp2.data)
+		}
+		q.length += v.length
+	}
+}
 
+func ConcatLists(d ...*Queue) *Queue {
+	ret := InitializeQueue()
+	for _, v := range d {
+		if v.length == 0 {
+			continue
+		}
+		for temp2 := v.startingNode; temp2 != nil; temp2 = temp2.nextNode {
+			ret.Push(temp2.data)
+		}
+		ret.length += v.length
+	}
 
+	return ret
+}

@@ -84,7 +84,7 @@ func (l *List) IsEmpty() bool {
 	return true
 }
 
-func (l *List) Length() int {
+func (l *List) Len() int {
 	return l.length
 }
 
@@ -194,47 +194,108 @@ func (l *List) Search(d interface{}) bool {
 	return false
 }
 
-func (l *List) Delete(d interface{}) (interface{}, error) {
-	if l.length == 0 {
-		return nil, errors.New("The list is empty.")
-	} else if reflect.DeepEqual(l.startingNode.data, d) == true {
-		if l.length == 1 {
-			l = InitializeList()
-		} else {
-			l.startingNode = l.startingNode.nextNode
+func (l *List) Delete(d ...interface{}) error {
+	for _, v := range d {
+		if l.length == 0 {
+			return errors.New("The list is empty.")
+		} else if reflect.DeepEqual(l.startingNode.data, v) == true {
+			if l.length == 1 {
+				l = InitializeList()
+			} else {
+				l.startingNode = l.startingNode.nextNode
+			}
+			l.length--
+			return nil
+		} else if l.length == 1 && reflect.DeepEqual(l.startingNode.data, v) == false {
+			return errors.New("Haven't found the element to delete.")
 		}
-		ret := l.startingNode.data
-		l.length--
-		return ret, nil
-	} else if l.length == 1 && reflect.DeepEqual(l.startingNode.data, d) == false {
-		return nil, errors.New("Haven't found the element to delete.")
-	}
-	toDelete := new(node)
-	for toDelete = l.startingNode; reflect.DeepEqual(toDelete.data, d) == false; toDelete = toDelete.nextNode {
-		if toDelete.nextNode == nil && reflect.DeepEqual(toDelete.data, d) == false {
-			return nil, errors.New("Haven't found the element to delete.")
+		toDelete := new(node)
+		for toDelete = l.startingNode; reflect.DeepEqual(toDelete.data, v) == false; toDelete = toDelete.nextNode {
+			if toDelete.nextNode == nil && reflect.DeepEqual(toDelete.data, v) == false {
+				return errors.New("Haven't found the element to delete.")
+			}
 		}
-	}
-	temp := new(node)
-	for temp = l.startingNode; temp.nextNode != toDelete; temp = temp.nextNode {
-	}
-	if toDelete.nextNode == nil {
-		ret := temp.nextNode.data
-		temp.nextNode = nil
+		temp := new(node)
+		for temp = l.startingNode; temp.nextNode != toDelete; temp = temp.nextNode {
+		}
+		if toDelete.nextNode == nil {
+			temp.nextNode = nil
+			l.length--
+			return nil
+		}
+		temp.nextNode = temp.nextNode.nextNode
+		toDelete = nil
 		l.length--
-		return ret, nil
 	}
-	ret := toDelete.data
-	temp.nextNode = temp.nextNode.nextNode
-	toDelete = nil
-	l.length--
-	return ret, nil
+
+	return nil
 }
 
-func (l *List) DeleteAll(d interface{}) {
-	for ; l.Search(d) == true; {
-		l.Delete(d)
+func (l *List) DeleteA(d []interface{}) error {
+	for _, v := range d {
+		if l.length == 0 {
+			return errors.New("The list is empty.")
+		} else if reflect.DeepEqual(l.startingNode.data, v) == true {
+			if l.length == 1 {
+				l = InitializeList()
+			} else {
+				l.startingNode = l.startingNode.nextNode
+			}
+			l.length--
+			return nil
+		} else if l.length == 1 && reflect.DeepEqual(l.startingNode.data, v) == false {
+			return errors.New("Haven't found the element to delete.")
+		}
+		toDelete := new(node)
+		for toDelete = l.startingNode; reflect.DeepEqual(toDelete.data, v) == false; toDelete = toDelete.nextNode {
+			if toDelete.nextNode == nil && reflect.DeepEqual(toDelete.data, v) == false {
+				return errors.New("Haven't found the element to delete.")
+			}
+		}
+		temp := new(node)
+		for temp = l.startingNode; temp.nextNode != toDelete; temp = temp.nextNode {
+		}
+		if toDelete.nextNode == nil {
+			temp.nextNode = nil
+			l.length--
+			return nil
+		}
+		temp.nextNode = temp.nextNode.nextNode
+		toDelete = nil
+		l.length--
 	}
+
+	return nil
+}
+
+func (l *List) DeleteAll(d ...interface{}) {
+	for _, v := range d {
+		for ; l.Search(v) == true; {
+			l.Delete(v)
+		}
+	}
+}
+
+func (l *List) DeleteAllA(d []interface{}) {
+	for _, v := range d {
+		for ; l.Search(v) == true; {
+			l.Delete(v)
+		}
+	}
+}
+
+func (l *List) Get(a int) interface{} {
+	if l.length == 0 || a > l.length - 1 {
+		return nil
+	}
+
+	temp := new(node)
+	temp = l.startingNode
+	for i := 0; i < a; i++ {
+		temp = temp.nextNode
+	}
+
+	return temp.data
 }
 
 func (l *List) Empty() ([]interface{}, error) {

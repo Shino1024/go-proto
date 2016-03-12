@@ -212,6 +212,21 @@ func (s *Set) Len() int {
 	return len(s.data)
 }
 
+func (s *Set) Concat(other ...*Set) {
+	for _, v := range other {
+		s.InsertA(other.GetAll())
+	}
+}
+
+func ConcatSets(s ...*Set) *Set {
+	ret := InitializeSet()
+	for _, v := range s {
+		ret.InsertA(v.GetAll())
+	}
+
+	return ret
+}
+
 func Union(s ...*Set) *Set {
 	ret := InitializeSet()
 	for _, v := range s {

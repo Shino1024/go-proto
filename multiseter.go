@@ -180,6 +180,14 @@ func (s *Multiset) RangeSearch(d Lesser) (int, int) {
 	return left, right
 }
 
+func (s *Multiset) Count(a Lesser) uint {
+	if left, right := s.RangeSearch(a); left == -1 {
+		return 0
+	} else {
+		return right - left + 1
+	}
+}
+
 func (s *Multiset) Get(w int) (Lesser, error) {
 	if w < 0 {
 		return nil, errors.New("Negative subscript.")
@@ -200,8 +208,8 @@ func (s *Multiset) GetFromTo(f, t int) ([]Lesser, error) {
 	return s.data[f:t], nil
 }
 
-func (m *Multiset) GetAll() []Lesser {
-	return m.data
+func (s *Multiset) GetAll() []Lesser {
+	return s.data
 }
 
 func (s *Multiset) IsEmpty() bool {
@@ -268,6 +276,21 @@ func (s *Multiset) Empty() []Lesser {
 
 func (s *Multiset) Len() int {
 	return len(s.data)
+}
+
+func (s *Multiset) Concat(other ...*Multiset) {
+	for _, v := range other {
+		s.InsertA(other.GetAll())
+	}
+}
+
+func ConcatMultisets(s ...*Multiset) *Multiset {
+	ret := InitializeMultiset()
+	for _, v := range s {
+		ret.InsertA(v.GetAll())
+	}
+
+	return ret
 }
 
 func Union(s ...*Multiset) *Multiset {
