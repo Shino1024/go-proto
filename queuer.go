@@ -1,3 +1,4 @@
+//Simple queue package.
 package queuer
 
 import (
@@ -5,17 +6,20 @@ import (
 	"reflect"
 )
 
+//Queue data structure.
 type Queue struct {
 	startingNode *node
 	endingNode   *node
 	length       int
 }
 
+//Helper node data structure of which queues consist from.
 type node struct {
 	nextNode *node
 	data     interface{}
 }
 
+//Initialize the queue. Use any number of interface{}'s.
 func InitializeQueue(d ...interface{}) *Queue {
 	temp := reflect.ValueOf(d)
 	q := new(Queue)
@@ -46,6 +50,7 @@ func InitializeQueue(d ...interface{}) *Queue {
 	return q
 }
 
+//Initialize the queue. Use an array of interface{}'s.
 func InitializeQueueA(d interface{}) *Queue {
 	temp := reflect.ValueOf(d)
 	q := new(Queue)
@@ -76,6 +81,7 @@ func InitializeQueueA(d interface{}) *Queue {
 	return q
 }
 
+//Check if the queue is empty.
 func (q *Queue) IsEmpty() bool {
 	if q.length != 0 {
 		return false
@@ -83,10 +89,12 @@ func (q *Queue) IsEmpty() bool {
 	return true
 }
 
-func (q *Queue) Length() int {
+//Return the length of the queue.
+func (q *Queue) Len() int {
 	return q.length
 }
 
+//Push any number of interface{}'s.
 func (q *Queue) Push(d ...interface{}) {
 	temp := reflect.ValueOf(d)
 	if temp.Len() == 0 {
@@ -116,6 +124,7 @@ func (q *Queue) Push(d ...interface{}) {
 	q.length += temp.Len()
 }
 
+//Push an array of interface{}'s.
 func (q *Queue) PushA(d interface{}) {
 	temp := reflect.ValueOf(d)
 	if temp.Len() == 0 {
@@ -145,6 +154,7 @@ func (q *Queue) PushA(d interface{}) {
 	q.length += temp.Len()
 }
 
+//Print all objects from the queue. They, of course, should implement Stringer as well. An optional separator can be provided.
 func (q *Queue) PrintAll(sepstr ...string) {
 	if q.length == 0 {
 		return
@@ -164,6 +174,7 @@ func (q *Queue) PrintAll(sepstr ...string) {
 	fmt.Print("]")
 }
 
+//Print all objects from the queue and a new line. They, of course, should implement Stringer as well. An optional separator can be provided.
 func (q *Queue) PrintAllln(sepstr ...string) {
 	if q.length == 0 {
 		fmt.Println("[]")
@@ -184,15 +195,7 @@ func (q *Queue) PrintAllln(sepstr ...string) {
 	fmt.Println("]")
 }
 
-func (q *Queue) Search(d interface{}) bool {
-	for temp := q.startingNode; temp != nil; temp = temp.nextNode {
-		if reflect.DeepEqual(temp.data, d) {
-			return true
-		}
-	}
-	return false
-}
-
+//Pop from the queue as an interface{}. Remember to perform type assertion on the returned object in order to make it usable.
 func (q *Queue) Pop() interface{} {
 	if q.length == 0 {
 		return nil
@@ -203,6 +206,7 @@ func (q *Queue) Pop() interface{} {
 	return ret
 }
 
+//Pop any number of elements from the queue as []interface{}. Remember to perform type assertion on the returned object in order to make it usable.
 func (q *Queue) PopN(n int) []interface{} {
 	if n > q.length {
 		return nil
@@ -221,6 +225,7 @@ func (q *Queue) PopN(n int) []interface{} {
 	return ret
 }
 
+//Erase everything from the queue and return it as []interface{}.
 func (q *Queue) Empty() []interface{} {
 	if q.length == 0 {
 		return nil
@@ -238,6 +243,7 @@ func (q *Queue) Empty() []interface{} {
 	return ret
 }
 
+//Concatenate any number of queues.
 func (q *Queue) Concat(d ...*Queue) {
 	for _, v := range d {
 		if v.length == 0 {
@@ -250,6 +256,7 @@ func (q *Queue) Concat(d ...*Queue) {
 	}
 }
 
+//Concatenate and return any number of queues.
 func ConcatLists(d ...*Queue) *Queue {
 	ret := InitializeQueue()
 	for _, v := range d {

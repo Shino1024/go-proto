@@ -1,3 +1,4 @@
+//Package stacker provides a simple stack.
 package stacker
 
 import (
@@ -6,10 +7,12 @@ import (
 	"reflect"
 )
 
+//Stack data structure.
 type Stack struct {
 	data   []interface{}
 }
 
+//Initialize the stack. Use any number of interface{}'s.
 func InitializeStack(d ...interface{}) *Stack {
 	s := new(Stack)
 	s.data = make([]interface{}, 0)
@@ -17,7 +20,8 @@ func InitializeStack(d ...interface{}) *Stack {
 	return s
 }
 
-func InitializeStackA(d interface{}) *Stack {
+//Initialize the stack. Use an array of interface{}'s.
+func InitializeStackA(d []interface{}) *Stack {
 	temp := reflect.ValueOf(d)
 	if temp.Len() == 0 {
 		return InitializeStack()
@@ -30,27 +34,7 @@ func InitializeStackA(d interface{}) *Stack {
 	return s
 }
 
-func (s *Stack) Get(w int) (interface{}, error) {
-	if w < 0 {
-		return nil, errors.New("Negative subscript.")
-	} else if w > len(s.data) - 1 {
-		return nil, errors.New("Subscript beyond the scope.")
-	}
-	fmt.Println(s.data[w])
-	return s.data[w], nil
-}
-
-func (s *Stack) GetFromTo(f, t int) ([]interface{}, error) {
-	if f < 0 || t < 0 {
-		return nil, errors.New("Negative subscript.")
-	} else if t > len(s.data) - 1 || f > len(s.data) - 1 {
-		return nil, errors.New("Subscript beyond the scope.")
-	} else if t < f {
-		return nil, errors.New("The second argument is smaller than the second one.")
-	}
-	return s.data[f:t], nil
-}
-
+//Check if the stack is empty.
 func (s *Stack) IsEmpty() bool {
 	if len(s.data) != 0 {
 		return false
@@ -58,6 +42,7 @@ func (s *Stack) IsEmpty() bool {
 	return true
 }
 
+//Get the top object of the stack. It may return an error.
 func (s *Stack) Top() (interface{}, error) {
 	if s.IsEmpty() == true {
 		return nil, errors.New("Can't get the top, because the stack is empty.")
@@ -65,6 +50,20 @@ func (s *Stack) Top() (interface{}, error) {
 	return s.data[len(s.data) - 1], nil
 }
 
+//Push any number of interface{}'s.
+func (s *Stack) Push(a ...interface{}) {
+	temp := reflect.ValueOf(a)
+	temp2 := make([]interface{}, temp.Len())
+	for i := 0; i < temp.Len(); i++ {
+		temp2[i] = temp.Index(i).Interface()
+	}
+	temp3 := make([]interface{}, temp.Len() + len(s.data))
+	copy(temp3[0:len(s.data)], s.data)
+	copy(temp3[len(s.data):len(s.data) + temp.Len()], temp2)
+	s.data = temp3
+}
+
+//Push an array of interface{}'s.
 func (s *Stack) PushA(a interface{}) error {
 	temp := reflect.ValueOf(a)
 	temp2 := make([]interface{}, temp.Len())
@@ -78,18 +77,7 @@ func (s *Stack) PushA(a interface{}) error {
 	return nil
 }
 
-func (s *Stack) Push(a ...interface{}) {
-	temp := reflect.ValueOf(a)
-	temp2 := make([]interface{}, temp.Len())
-	for i := 0; i < temp.Len(); i++ {
-		temp2[i] = temp.Index(i).Interface()
-	}
-	temp3 := make([]interface{}, temp.Len() + len(s.data))
-	copy(temp3[0:len(s.data)], s.data)
-	copy(temp3[len(s.data):len(s.data) + temp.Len()], temp2)
-	s.data = temp3
-}
-
+//Pop from the stack as an interface{}. Remember to perform type assertion on the returned object in order to make it usable.
 func(s *Stack) Pop() interface{} {
 	if s.IsEmpty() == true {
 		return nil
@@ -101,6 +89,7 @@ func(s *Stack) Pop() interface{} {
 	return ret
 }
 
+//Pop any number of elements from the stack as []interface{}. Remember to perform type assertion on the returned object in order to make it usable.
 func (s *Stack) PopN(a int) []interface{} {
 	if a > len(s.data) {
 		return nil
@@ -111,6 +100,7 @@ func (s *Stack) PopN(a int) []interface{} {
 	return ret
 }
 
+//Erase everything from the stack and return it as []interface{}.
 func (s *Stack) Empty() []interface{} {
 	if len(s.data) == 0 {
 		return nil
@@ -119,6 +109,7 @@ func (s *Stack) Empty() []interface{} {
 	return ret
 }
 
+//Print all objects from the stack. They, of course, should implement Stringer as well. An optional separator can be provided.
 func (s *Stack) PrintAll(sepstr ...string) {
 	sep := ", "
 	if len(sepstr) == 1 {
@@ -135,6 +126,7 @@ func (s *Stack) PrintAll(sepstr ...string) {
 	fmt.Print("]")
 }
 
+//Print all objects from the stack and a new line. They, of course, should implement Stringer as well. An optional separator can be provided.
 func (s *Stack) PrintAllln(sepstr ...string) {
 	sep := ", "
 	if len(sepstr) == 1 {
@@ -151,6 +143,7 @@ func (s *Stack) PrintAllln(sepstr ...string) {
 	fmt.Println("]")
 }
 
+//Concatenate any number of stacks.
 func (s *Stack) Concat(s2 ...*Stack) {
 	var length int
 	for _, v := range s2 {
@@ -165,6 +158,7 @@ func (s *Stack) Concat(s2 ...*Stack) {
 	s.Push(temp...)
 }
 
+//Concatenate and return any number of stacks.
 func ConcatStacks(s ...*Stack) *Stack {
 	if len(s) > 0 {
 		ret := InitializeStack()
@@ -174,6 +168,7 @@ func ConcatStacks(s ...*Stack) *Stack {
 	return InitializeStack()
 }
 
+//Get the length of the stack.
 func (s *Stack) Len() int {
 	return len(s.data)
 }

@@ -1,3 +1,4 @@
+//Simple list data structure.
 package lister
 
 import (
@@ -6,17 +7,20 @@ import (
 	"reflect"
 )
 
+//List data structure.
 type List struct {
 	startingNode *node
 	endingNode   *node
 	length       int
 }
 
+//Helper node data structure of which lists consist from.
 type node struct {
 	nextNode *node
 	data     interface{}
 }
 
+//Initialize the list. Use any number of interface{}'s.
 func InitializeList(d ...interface{}) *List {
 	temp := reflect.ValueOf(d)
 	l := new(List)
@@ -47,6 +51,7 @@ func InitializeList(d ...interface{}) *List {
 	return l
 }
 
+//Initialize the list. Use an array of interface{}'s.
 func InitializeListA(d interface{}) *List {
 	temp := reflect.ValueOf(d)
 	l := new(List)
@@ -77,6 +82,7 @@ func InitializeListA(d interface{}) *List {
 	return l
 }
 
+//Check if the list is empty.
 func (l *List) IsEmpty() bool {
 	if l.length != 0 {
 		return false
@@ -84,10 +90,12 @@ func (l *List) IsEmpty() bool {
 	return true
 }
 
+//Return the length of the list.
 func (l *List) Len() int {
 	return l.length
 }
 
+//Append any number of interface{} objects to the list.
 func (l *List) Append(d ...interface{}) {
 	temp := reflect.ValueOf(d)
 	if temp.Len() == 0 {
@@ -117,6 +125,7 @@ func (l *List) Append(d ...interface{}) {
 	l.length += temp.Len()
 }
 
+//Append an array of interface{} objects to the list.
 func (l *List) AppendA(d interface{}) {
 	temp := reflect.ValueOf(d)
 	if temp.Len() == 0 {
@@ -146,6 +155,7 @@ func (l *List) AppendA(d interface{}) {
 	l.length += temp.Len()
 }
 
+//Print all objects from the list. They, of course, should implement Stringer as well. An optional separator can be provided.
 func (l *List) PrintAll(sepstr ...string) {
 	if l.length == 0 {
 		return
@@ -165,6 +175,7 @@ func (l *List) PrintAll(sepstr ...string) {
 	fmt.Print("]")
 }
 
+//Print all objects from the list and a new line. They, of course, should implement Stringer as well. An optional separator can be provided.
 func (l *List) PrintAllln(sepstr ...string) {
 	if l.length == 0 {
 		fmt.Println("[]")
@@ -185,6 +196,7 @@ func (l *List) PrintAllln(sepstr ...string) {
 	fmt.Println("]")
 }
 
+//Check if the object is in the list.
 func (l *List) Search(d interface{}) bool {
 	for temp := l.startingNode; temp != nil; temp = temp.nextNode {
 		if reflect.DeepEqual(temp.data, d) {
@@ -194,6 +206,7 @@ func (l *List) Search(d interface{}) bool {
 	return false
 }
 
+//Remove any number of objects from the list.
 func (l *List) Delete(d ...interface{}) error {
 	for _, v := range d {
 		if l.length == 0 {
@@ -231,6 +244,7 @@ func (l *List) Delete(d ...interface{}) error {
 	return nil
 }
 
+//Remove an array of objects from the list.
 func (l *List) DeleteA(d []interface{}) error {
 	for _, v := range d {
 		if l.length == 0 {
@@ -268,6 +282,7 @@ func (l *List) DeleteA(d []interface{}) error {
 	return nil
 }
 
+//Remove all instances of any number of objects from the list.
 func (l *List) DeleteAll(d ...interface{}) {
 	for _, v := range d {
 		for ; l.Search(v) == true; {
@@ -276,6 +291,7 @@ func (l *List) DeleteAll(d ...interface{}) {
 	}
 }
 
+//Remove all instances of an array of objects from the list.
 func (l *List) DeleteAllA(d []interface{}) {
 	for _, v := range d {
 		for ; l.Search(v) == true; {
@@ -284,6 +300,7 @@ func (l *List) DeleteAllA(d []interface{}) {
 	}
 }
 
+//Get the object from any position. It may return nil when the index is incorrect.
 func (l *List) Get(a int) interface{} {
 	if l.length == 0 || a > l.length - 1 {
 		return nil
@@ -298,6 +315,30 @@ func (l *List) Get(a int) interface{} {
 	return temp.data
 }
 
+//Get a slice of objects from any position. It may return an error when the indexes are incorrect.
+func (l *List) GetFromTo(f, t int) []interface{} {
+	if f < 0 || t < 0 {
+		return []interface{}
+	} else if t > l.Len() - 1 || f > l.Len() - 1 {
+		return []interface{}
+	} else if t < f {
+		return []interface{}
+	}
+	
+	ret := make([]interface{}, t - f + 1)
+	for i := 0; i < t - f + 1; i++ {
+		ret[i] = l.Get(i)
+	}
+
+	return ret
+}
+
+//Get the whole slice of objects stored in the list.
+func (l *List) GetAll() []interface{} {
+	return l.GetFromTo(0, l.Len())
+}
+
+//Erase everything from the stack and return it as []interface{}. Returns an error when the list is empty already.
 func (l *List) Empty() ([]interface{}, error) {
 	if l.length == 0 {
 		return nil, errors.New("The list is empty already.")
@@ -315,6 +356,7 @@ func (l *List) Empty() ([]interface{}, error) {
 	return ret, nil
 }
 
+//Concatenate any number of lists.
 func (l *List) Concat(d ...*List) {
 	for _, v := range d {
 		if v.length == 0 {
@@ -327,6 +369,7 @@ func (l *List) Concat(d ...*List) {
 	}
 }
 
+//Concatenate and return any number of multisets.
 func ConcatLists(d ...*List) *List {
 	ret := InitializeList()
 	for _, v := range d {
