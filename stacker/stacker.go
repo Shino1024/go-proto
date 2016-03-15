@@ -1,5 +1,5 @@
 //Package stacker provides a simple stack.
-package stacker
+package goproto
 
 import (
 	"errors"

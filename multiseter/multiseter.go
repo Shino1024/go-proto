@@ -1,5 +1,5 @@
 //Simple multiseter data structure.
-package multiseter
+package goproto
 
 import (
 	"fmt"

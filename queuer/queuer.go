@@ -1,5 +1,5 @@
 //Simple queue package.
-package queuer
+package goproto
 
 import (
 	"fmt"

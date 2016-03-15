@@ -1,5 +1,5 @@
 //Package seter provides a simple set structure.
-package seter
+package goproto
 
 import (
 	"fmt"
