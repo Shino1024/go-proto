@@ -1,0 +1,556 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "."</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Simple multiseter data structure.
+</p>
+
+			</div>
+		</div>
+		
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="#MLesser">type MLesser</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Multiset">type Multiset</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ConcatMultisets">func ConcatMultisets(s ...*Multiset) *Multiset</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Difference">func Difference(s ...*Multiset) *Multiset</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#InitializeMultiset">func InitializeMultiset(d ...MLesser) *Multiset</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#InitializeMultisetA">func InitializeMultisetA(d []MLesser) *Multiset</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Intersection">func Intersection(s ...*Multiset) *Multiset</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Union">func Union(s ...*Multiset) *Multiset</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.Concat">func (s *Multiset) Concat(other ...*Multiset)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.Count">func (s *Multiset) Count(a MLesser) uint</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.Delete">func (s *Multiset) Delete(d ...MLesser)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.DeleteA">func (s *Multiset) DeleteA(d []MLesser)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.DeleteAll">func (s *Multiset) DeleteAll(d ...MLesser)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.DeleteAllA">func (s *Multiset) DeleteAllA(d []MLesser)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.Empty">func (s *Multiset) Empty() []MLesser</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.Get">func (s *Multiset) Get(w int) (MLesser, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.GetAll">func (s *Multiset) GetAll() []MLesser</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.GetFromTo">func (s *Multiset) GetFromTo(f, t int) ([]MLesser, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.Insert">func (s *Multiset) Insert(d ...MLesser)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.InsertA">func (s *Multiset) InsertA(d []MLesser)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.IsEmpty">func (s *Multiset) IsEmpty() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.Len">func (s *Multiset) Len() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.Max">func (s *Multiset) Max() MLesser</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.Min">func (s *Multiset) Min() MLesser</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.PrintAll">func (s *Multiset) PrintAll(sepstr ...string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.PrintAllln">func (s *Multiset) PrintAllln(sepstr ...string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.RangeSearch">func (s *Multiset) RangeSearch(d MLesser) (int, int)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.Search">func (s *Multiset) Search(d MLesser) int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Multiset.Subtract">func (s *Multiset) Subtract(other ...*Multiset)</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h4>Package files</h4>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/target/multiseter.go">multiseter.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+		
+		
+		
+			
+			
+			<h2 id="MLesser">type <a href="/src/target/multiseter.go?s=169:316#L1">MLesser</a></h2>
+			<pre>type MLesser interface {
+    <span class="comment">//MLess takes an MLesser and returns a bool. Compare between the receiver and other MLesser.</span>
+    MLess(other <a href="#MLesser">MLesser</a>) <a href="/pkg/builtin/#bool">bool</a>
+}</pre>
+			<p>
+Interface MLesser to be implemented for objects that will be stored in the multiset.
+</p>
+
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Multiset">type <a href="/src/target/multiseter.go?s=345:385#L6">Multiset</a></h2>
+			<pre>type Multiset struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+			<p>
+Multiset data structure.
+</p>
+
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="ConcatMultisets">func <a href="/src/target/multiseter.go?s=7276:7322#L304">ConcatMultisets</a></h3>
+				<pre>func ConcatMultisets(s ...*<a href="#Multiset">Multiset</a>) *<a href="#Multiset">Multiset</a></pre>
+				<p>
+Concatenate and return any number of multisets.
+</p>
+
+				
+				
+			
+				
+				<h3 id="Difference">func <a href="/src/target/multiseter.go?s=8414:8455#L359">Difference</a></h3>
+				<pre>func Difference(s ...*<a href="#Multiset">Multiset</a>) *<a href="#Multiset">Multiset</a></pre>
+				<p>
+Perform the difference operation on any number of multisets.
+</p>
+
+				
+				
+			
+				
+				<h3 id="InitializeMultiset">func <a href="/src/target/multiseter.go?s=494:541#L11">InitializeMultiset</a></h3>
+				<pre>func InitializeMultiset(d ...<a href="#MLesser">MLesser</a>) *<a href="#Multiset">Multiset</a></pre>
+				<p>
+Initialize the multiset. Use any number of arguments. Use objects of a single type implementing MLesser.
+</p>
+
+				
+				
+			
+				
+				<h3 id="InitializeMultisetA">func <a href="/src/target/multiseter.go?s=779:826#L22">InitializeMultisetA</a></h3>
+				<pre>func InitializeMultisetA(d []<a href="#MLesser">MLesser</a>) *<a href="#Multiset">Multiset</a></pre>
+				<p>
+Initialize the multiset. Use an array of objects implementing MLesser. Use objects of a single type implementing MLesser.
+</p>
+
+				
+				
+			
+				
+				<h3 id="Intersection">func <a href="/src/target/multiseter.go?s=8877:8920#L383">Intersection</a></h3>
+				<pre>func Intersection(s ...*<a href="#Multiset">Multiset</a>) *<a href="#Multiset">Multiset</a></pre>
+				<p>
+Perform the intersection operation on any number of multisets.
+</p>
+
+				
+				
+			
+				
+				<h3 id="Union">func <a href="/src/target/multiseter.go?s=7480:7516#L314">Union</a></h3>
+				<pre>func Union(s ...*<a href="#Multiset">Multiset</a>) *<a href="#Multiset">Multiset</a></pre>
+				<p>
+Perform the union operation on any number of multisets.
+</p>
+
+				
+				
+			
+
+			
+				
+				<h3 id="Multiset.Concat">func (*Multiset) <a href="/src/target/multiseter.go?s=7121:7166#L297">Concat</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) Concat(other ...*<a href="#Multiset">Multiset</a>)</pre>
+				<p>
+Concatenate any number of multisets.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.Count">func (*Multiset) <a href="/src/target/multiseter.go?s=4458:4498#L188">Count</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) Count(a <a href="#MLesser">MLesser</a>) <a href="/pkg/builtin/#uint">uint</a></pre>
+				<p>
+Count the number of instances of an MLesser object.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.Delete">func (*Multiset) <a href="/src/target/multiseter.go?s=1865:1904#L69">Delete</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) Delete(d ...<a href="#MLesser">MLesser</a>)</pre>
+				<p>
+Remove any number of objects implementing MLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.DeleteA">func (*Multiset) <a href="/src/target/multiseter.go?s=2267:2306#L87">DeleteA</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) DeleteA(d []<a href="#MLesser">MLesser</a>)</pre>
+				<p>
+Remove objects implementing MLesser placed in an array.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.DeleteAll">func (*Multiset) <a href="/src/target/multiseter.go?s=2681:2723#L105">DeleteAll</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) DeleteAll(d ...<a href="#MLesser">MLesser</a>)</pre>
+				<p>
+Remove all instances of any number of objects implementing MLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.DeleteAllA">func (*Multiset) <a href="/src/target/multiseter.go?s=3057:3099#L121">DeleteAllA</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) DeleteAllA(d []<a href="#MLesser">MLesser</a>)</pre>
+				<p>
+Remove any number of objects implementing MLesser placed in an array.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.Empty">func (*Multiset) <a href="/src/target/multiseter.go?s=6829:6865#L282">Empty</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) Empty() []<a href="#MLesser">MLesser</a></pre>
+				<p>
+Erase everything from the multiset and return it in []MLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.Get">func (*Multiset) <a href="/src/target/multiseter.go?s=4721:4767#L197">Get</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) Get(w <a href="/pkg/builtin/#int">int</a>) (<a href="#MLesser">MLesser</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Get the object from any position. It may return an error when the index is incorrect. Returns MLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.GetAll">func (*Multiset) <a href="/src/target/multiseter.go?s=5500:5537#L219">GetAll</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) GetAll() []<a href="#MLesser">MLesser</a></pre>
+				<p>
+Get the whole slice placed in the multiset. Returns MLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.GetFromTo">func (*Multiset) <a href="/src/target/multiseter.go?s=5066:5123#L207">GetFromTo</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) GetFromTo(f, t <a href="/pkg/builtin/#int">int</a>) ([]<a href="#MLesser">MLesser</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Get a slice of objects from any position. It may return an error when the indexes are incorrect. Returns []MLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.Insert">func (*Multiset) <a href="/src/target/multiseter.go?s=1031:1070#L33">Insert</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) Insert(d ...<a href="#MLesser">MLesser</a>)</pre>
+				<p>
+Insert the objects with this function. Use any number of arguments implementing MLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.InsertA">func (*Multiset) <a href="/src/target/multiseter.go?s=1465:1504#L51">InsertA</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) InsertA(d []<a href="#MLesser">MLesser</a>)</pre>
+				<p>
+Insert the objects with this function. Use an array of objects implementing MLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.IsEmpty">func (*Multiset) <a href="/src/target/multiseter.go?s=5611:5644#L224">IsEmpty</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) IsEmpty() <a href="/pkg/builtin/#bool">bool</a></pre>
+				<p>
+Check whether the multiset is empty. Returns bool.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.Len">func (*Multiset) <a href="/src/target/multiseter.go?s=7028:7056#L292">Len</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) Len() <a href="/pkg/builtin/#int">int</a></pre>
+				<p>
+Get the length of the multiset.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.Max">func (*Multiset) <a href="/src/target/multiseter.go?s=6515:6547#L266">Max</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) Max() <a href="#MLesser">MLesser</a></pre>
+				<p>
+Get the biggest object from the multiset.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.Min">func (*Multiset) <a href="/src/target/multiseter.go?s=6669:6701#L274">Min</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) Min() <a href="#MLesser">MLesser</a></pre>
+				<p>
+Get the smallest object from the multiset.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.PrintAll">func (*Multiset) <a href="/src/target/multiseter.go?s=5834:5879#L232">PrintAll</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) PrintAll(sepstr ...<a href="/pkg/builtin/#string">string</a>)</pre>
+				<p>
+Print all objects from the multiset. They, of course, should implement Stringer as well. An optional separator can be provided.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.PrintAllln">func (*Multiset) <a href="/src/target/multiseter.go?s=6223:6270#L249">PrintAllln</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) PrintAllln(sepstr ...<a href="/pkg/builtin/#string">string</a>)</pre>
+				<p>
+Print all objects from the multiset and a new line. They, of course, should implement Stringer as well. An optional separator can be provided.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.RangeSearch">func (*Multiset) <a href="/src/target/multiseter.go?s=3881:3933#L153">RangeSearch</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) RangeSearch(d <a href="#MLesser">MLesser</a>) (<a href="/pkg/builtin/#int">int</a>, <a href="/pkg/builtin/#int">int</a>)</pre>
+				<p>
+Check the first and the last position of the object in the multiset. -1 means that there is no such object in the multiset.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.Search">func (*Multiset) <a href="/src/target/multiseter.go?s=3468:3508#L137">Search</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) Search(d <a href="#MLesser">MLesser</a>) <a href="/pkg/builtin/#int">int</a></pre>
+				<p>
+Check the position of the object in the multiset. -1 means that there is no such object in the multiset.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Multiset.Subtract">func (*Multiset) <a href="/src/target/multiseter.go?s=8163:8210#L347">Subtract</a></h3>
+				<pre>func (s *<a href="#Multiset">Multiset</a>) Subtract(other ...*<a href="#Multiset">Multiset</a>)</pre>
+				<p>
+Substract any number of multisets from the receiver multiset.
+</p>
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+

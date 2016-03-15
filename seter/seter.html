@@ -1,0 +1,500 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "."</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package seter provides a simple set structure.
+</p>
+
+			</div>
+		</div>
+		
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="#SLesser">type SLesser</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Set">type Set</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ConcatSets">func ConcatSets(s ...*Set) *Set</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Difference">func Difference(s ...*Set) *Set</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#InitializeSet">func InitializeSet(d ...SLesser) *Set</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#InitializeSetA">func InitializeSetA(d []SLesser) *Set</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Intersection">func Intersection(s ...*Set) *Set</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Union">func Union(s ...*Set) *Set</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.Concat">func (s *Set) Concat(other ...*Set)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.Delete">func (s *Set) Delete(d ...SLesser)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.DeleteA">func (s *Set) DeleteA(d []SLesser)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.Empty">func (s *Set) Empty() []SLesser</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.Get">func (s *Set) Get(w int) (SLesser, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.GetAll">func (s *Set) GetAll() []SLesser</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.GetFromTo">func (s *Set) GetFromTo(f, t int) ([]SLesser, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.Insert">func (s *Set) Insert(d ...SLesser)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.InsertA">func (s *Set) InsertA(d []SLesser)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.IsEmpty">func (s *Set) IsEmpty() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.Len">func (s *Set) Len() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.Max">func (s *Set) Max() SLesser</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.Min">func (s *Set) Min() SLesser</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.PrintAll">func (s *Set) PrintAll(sepstr ...string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.PrintAllln">func (s *Set) PrintAllln(sepstr ...string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.Search">func (s *Set) Search(d SLesser) int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Set.Subtract">func (s *Set) Subtract(other ...*Set)</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h4>Package files</h4>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/target/seter.go">seter.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+		
+		
+		
+			
+			
+			<h2 id="SLesser">type <a href="/src/target/seter.go?s=177:324#L1">SLesser</a></h2>
+			<pre>type SLesser interface {
+    <span class="comment">//SLess takes an SLesser and returns a bool. Compare between the receiver and other SLesser.</span>
+    SLess(other <a href="#SLesser">SLesser</a>) <a href="/pkg/builtin/#bool">bool</a>
+}</pre>
+			<p>
+Interface SLesser to be implemented for objects that will be stored in the set.
+</p>
+
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Set">type <a href="/src/target/seter.go?s=348:383#L6">Set</a></h2>
+			<pre>type Set struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+			<p>
+Set data structure.
+</p>
+
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="ConcatSets">func <a href="/src/target/seter.go?s=5614:5645#L234">ConcatSets</a></h3>
+				<pre>func ConcatSets(s ...*<a href="#Set">Set</a>) *<a href="#Set">Set</a></pre>
+				<p>
+Concatenate and return any number of sets.
+</p>
+
+				
+				
+			
+				
+				<h3 id="Difference">func <a href="/src/target/seter.go?s=6204:6235#L266">Difference</a></h3>
+				<pre>func Difference(s ...*<a href="#Set">Set</a>) *<a href="#Set">Set</a></pre>
+				<p>
+Perform the difference operation on any number of sets.
+</p>
+
+				
+				
+			
+				
+				<h3 id="InitializeSet">func <a href="/src/target/seter.go?s=487:524#L11">InitializeSet</a></h3>
+				<pre>func InitializeSet(d ...<a href="#SLesser">SLesser</a>) *<a href="#Set">Set</a></pre>
+				<p>
+Initialize the set. Use any number of arguments. Use objects of a single type implementing SLesser.
+</p>
+
+				
+				
+			
+				
+				<h3 id="InitializeSetA">func <a href="/src/target/seter.go?s=752:789#L22">InitializeSetA</a></h3>
+				<pre>func InitializeSetA(d []<a href="#SLesser">SLesser</a>) *<a href="#Set">Set</a></pre>
+				<p>
+Initialize the set. Use an array of objects implementing SLesser. Use objects of a single type implementing SLesser.
+</p>
+
+				
+				
+			
+				
+				<h3 id="Intersection">func <a href="/src/target/seter.go?s=6642:6675#L290">Intersection</a></h3>
+				<pre>func Intersection(s ...*<a href="#Set">Set</a>) *<a href="#Set">Set</a></pre>
+				<p>
+Perform the intersection operation on any number of sets.
+</p>
+
+				
+				
+			
+				
+				<h3 id="Union">func <a href="/src/target/seter.go?s=5793:5819#L244">Union</a></h3>
+				<pre>func Union(s ...*<a href="#Set">Set</a>) *<a href="#Set">Set</a></pre>
+				<p>
+Perform the union operation on any number of sets.
+</p>
+
+				
+				
+			
+
+			
+				
+				<h3 id="Set.Concat">func (*Set) <a href="/src/target/seter.go?s=5474:5509#L227">Concat</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) Concat(other ...*<a href="#Set">Set</a>)</pre>
+				<p>
+Concatenate any number of sets.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.Delete">func (*Set) <a href="/src/target/seter.go?s=2356:2390#L91">Delete</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) Delete(d ...<a href="#SLesser">SLesser</a>)</pre>
+				<p>
+Remove any number of objects implementing SLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.DeleteA">func (*Set) <a href="/src/target/seter.go?s=2753:2787#L109">DeleteA</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) DeleteA(d []<a href="#SLesser">SLesser</a>)</pre>
+				<p>
+Remove objects implementing SLesser placed in an array.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.Empty">func (*Set) <a href="/src/target/seter.go?s=5230:5261#L212">Empty</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) Empty() []<a href="#SLesser">SLesser</a></pre>
+				<p>
+Erase everything from the set and return it in []SLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.Get">func (*Set) <a href="/src/target/seter.go?s=3197:3238#L127">Get</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) Get(w <a href="/pkg/builtin/#int">int</a>) (<a href="#SLesser">SLesser</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Get the object from any position. It may return an error when the index is incorrect. Returns SLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.GetAll">func (*Set) <a href="/src/target/seter.go?s=3961:3993#L149">GetAll</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) GetAll() []<a href="#SLesser">SLesser</a></pre>
+				<p>
+Get the whole slice placed in the set. Returns SLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.GetFromTo">func (*Set) <a href="/src/target/seter.go?s=3537:3589#L137">GetFromTo</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) GetFromTo(f, t <a href="/pkg/builtin/#int">int</a>) ([]<a href="#SLesser">SLesser</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Get a slice of objects from any position. It may return an error when the indexes are incorrect. Returns []SLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.Insert">func (*Set) <a href="/src/target/seter.go?s=989:1023#L33">Insert</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) Insert(d ...<a href="#SLesser">SLesser</a>)</pre>
+				<p>
+Insert the objects with this function. Use any number of arguments implementing SLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.InsertA">func (*Set) <a href="/src/target/seter.go?s=1500:1534#L54">InsertA</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) InsertA(d []<a href="#SLesser">SLesser</a>)</pre>
+				<p>
+Insert the objects with this function. Use an array of objects implementing SLesser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.IsEmpty">func (*Set) <a href="/src/target/seter.go?s=4062:4090#L154">IsEmpty</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) IsEmpty() <a href="/pkg/builtin/#bool">bool</a></pre>
+				<p>
+Check whether the set is empty. Returns bool.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.Len">func (*Set) <a href="/src/target/seter.go?s=5391:5414#L222">Len</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) Len() <a href="/pkg/builtin/#int">int</a></pre>
+				<p>
+Get the length of the set.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.Max">func (*Set) <a href="/src/target/seter.go?s=4936:4963#L196">Max</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) Max() <a href="#SLesser">SLesser</a></pre>
+				<p>
+Get the biggest object from the set.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.Min">func (*Set) <a href="/src/target/seter.go?s=5080:5107#L204">Min</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) Min() <a href="#SLesser">SLesser</a></pre>
+				<p>
+Get the smallest object from the set.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.PrintAll">func (*Set) <a href="/src/target/seter.go?s=4275:4315#L162">PrintAll</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) PrintAll(sepstr ...<a href="/pkg/builtin/#string">string</a>)</pre>
+				<p>
+Print all objects from the set. They, of course, should implement Stringer as well. An optional separator can be provided.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.PrintAllln">func (*Set) <a href="/src/target/seter.go?s=4654:4696#L179">PrintAllln</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) PrintAllln(sepstr ...<a href="/pkg/builtin/#string">string</a>)</pre>
+				<p>
+Print all objects from the set and a new line. They, of course, should implement Stringer as well. An optional separator can be provided.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.Search">func (*Set) <a href="/src/target/seter.go?s=2021:2056#L75">Search</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) Search(d <a href="#SLesser">SLesser</a>) <a href="/pkg/builtin/#int">int</a></pre>
+				<p>
+Check the position of the object in the set. -1 means that there is no such object in the set.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Set.Subtract">func (*Set) <a href="/src/target/seter.go?s=5968:6005#L254">Subtract</a></h3>
+				<pre>func (s *<a href="#Set">Set</a>) Subtract(other ...*<a href="#Set">Set</a>)</pre>
+				<p>
+Substract any number of sets from the receiver set.
+</p>
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+

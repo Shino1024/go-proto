@@ -1,0 +1,333 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "."</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				
+			</div>
+		</div>
+		
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="#List">type List</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ConcatLists">func ConcatLists(d ...*List) *List</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#InitializeList">func InitializeList(d ...interface{}) *List</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#InitializeListA">func InitializeListA(d interface{}) *List</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.Append">func (l *List) Append(d ...interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.AppendA">func (l *List) AppendA(d interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.Concat">func (l *List) Concat(d ...*List)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.Delete">func (l *List) Delete(d ...interface{}) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.DeleteA">func (l *List) DeleteA(d []interface{}) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.DeleteAll">func (l *List) DeleteAll(d ...interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.DeleteAllA">func (l *List) DeleteAllA(d []interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.Empty">func (l *List) Empty() ([]interface{}, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.Get">func (l *List) Get(a int) interface{}</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.IsEmpty">func (l *List) IsEmpty() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.Len">func (l *List) Len() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.PrintAll">func (l *List) PrintAll(sepstr ...string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.PrintAllln">func (l *List) PrintAllln(sepstr ...string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#List.Search">func (l *List) Search(d interface{}) bool</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h4>Package files</h4>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/target/lister.go">lister.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+		
+		
+		
+			
+			
+			<h2 id="List">type <a href="/src/target/lister.go?s=56:134#L1">List</a></h2>
+			<pre>type List struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+			
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="ConcatLists">func <a href="/src/target/lister.go?s=6703:6737#L320">ConcatLists</a></h3>
+				<pre>func ConcatLists(d ...*<a href="#List">List</a>) *<a href="#List">List</a></pre>
+				
+				
+				
+			
+				
+				<h3 id="InitializeList">func <a href="/src/target/lister.go?s=196:239#L10">InitializeList</a></h3>
+				<pre>func InitializeList(d ...interface{}) *<a href="#List">List</a></pre>
+				
+				
+				
+			
+				
+				<h3 id="InitializeListA">func <a href="/src/target/lister.go?s=791:832#L40">InitializeListA</a></h3>
+				<pre>func InitializeListA(d interface{}) *<a href="#List">List</a></pre>
+				
+				
+				
+			
+
+			
+				
+				<h3 id="List.Append">func (*List) <a href="/src/target/lister.go?s=1518:1557#L81">Append</a></h3>
+				<pre>func (l *<a href="#List">List</a>) Append(d ...interface{})</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.AppendA">func (*List) <a href="/src/target/lister.go?s=2090:2127#L110">AppendA</a></h3>
+				<pre>func (l *<a href="#List">List</a>) AppendA(d interface{})</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.Concat">func (*List) <a href="/src/target/lister.go?s=6480:6513#L308">Concat</a></h3>
+				<pre>func (l *<a href="#List">List</a>) Concat(d ...*<a href="#List">List</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.Delete">func (*List) <a href="/src/target/lister.go?s=3469:3514#L187">Delete</a></h3>
+				<pre>func (l *<a href="#List">List</a>) Delete(d ...interface{}) <a href="/pkg/builtin/#error">error</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.DeleteA">func (*List) <a href="/src/target/lister.go?s=4518:4563#L224">DeleteA</a></h3>
+				<pre>func (l *<a href="#List">List</a>) DeleteA(d []interface{}) <a href="/pkg/builtin/#error">error</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.DeleteAll">func (*List) <a href="/src/target/lister.go?s=5567:5609#L261">DeleteAll</a></h3>
+				<pre>func (l *<a href="#List">List</a>) DeleteAll(d ...interface{})</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.DeleteAllA">func (*List) <a href="/src/target/lister.go?s=5691:5733#L269">DeleteAllA</a></h3>
+				<pre>func (l *<a href="#List">List</a>) DeleteAllA(d []interface{})</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.Empty">func (*List) <a href="/src/target/lister.go?s=6028:6073#L291">Empty</a></h3>
+				<pre>func (l *<a href="#List">List</a>) Empty() ([]interface{}, <a href="/pkg/builtin/#error">error</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.Get">func (*List) <a href="/src/target/lister.go?s=5815:5852#L277">Get</a></h3>
+				<pre>func (l *<a href="#List">List</a>) Get(a <a href="/pkg/builtin/#int">int</a>) interface{}</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.IsEmpty">func (*List) <a href="/src/target/lister.go?s=1385:1414#L70">IsEmpty</a></h3>
+				<pre>func (l *<a href="#List">List</a>) IsEmpty() <a href="/pkg/builtin/#bool">bool</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.Len">func (*List) <a href="/src/target/lister.go?s=1471:1495#L77">Len</a></h3>
+				<pre>func (l *<a href="#List">List</a>) Len() <a href="/pkg/builtin/#int">int</a></pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.PrintAll">func (*List) <a href="/src/target/lister.go?s=2660:2701#L139">PrintAll</a></h3>
+				<pre>func (l *<a href="#List">List</a>) PrintAll(sepstr ...<a href="/pkg/builtin/#string">string</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.PrintAllln">func (*List) <a href="/src/target/lister.go?s=2959:3002#L158">PrintAllln</a></h3>
+				<pre>func (l *<a href="#List">List</a>) PrintAllln(sepstr ...<a href="/pkg/builtin/#string">string</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="List.Search">func (*List) <a href="/src/target/lister.go?s=3282:3323#L178">Search</a></h3>
+				<pre>func (l *<a href="#List">List</a>) Search(d interface{}) <a href="/pkg/builtin/#bool">bool</a></pre>
+				
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+

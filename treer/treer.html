@@ -1,0 +1,337 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "."</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Simple red-black tree data structure. It&#39;s a modified version of sakeven&#39;s red-black tree implementation.
+</p>
+
+			</div>
+		</div>
+		
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+				<dd><a href="#pkg-constants">Constants</a></dd>
+			
+			
+			
+			
+				
+				<dd><a href="#TLesser">type TLesser</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Tree">type Tree</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#NewTree">func NewTree() *Tree</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Tree.Delete">func (t *Tree) Delete(key TLesser)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Tree.Empty">func (t *Tree) Empty()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Tree.Find">func (t *Tree) Find(key TLesser) interface{}</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Tree.FindIt">func (t *Tree) FindIt(key TLesser) *node</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Tree.Insert">func (t *Tree) Insert(key TLesser, value interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Tree.IsEmpty">func (t *Tree) IsEmpty() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Tree.Iterator">func (t *Tree) Iterator() *node</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Tree.Len">func (t *Tree) Len() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Tree.Preorder">func (t *Tree) Preorder()</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h4>Package files</h4>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/target/treer.go">treer.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+			<h2 id="pkg-constants">Constants</h2>
+			
+				<pre>const (
+    <span id="RED">RED</span>   = 0
+    <span id="BLACK">BLACK</span> = 1
+)</pre>
+				<p>
+Constants.
+</p>
+
+			
+		
+		
+		
+		
+			
+			
+			<h2 id="TLesser">type <a href="/src/target/treer.go?s=268:424#L3">TLesser</a></h2>
+			<pre>type TLesser interface {
+    <span class="comment">//TLess takes an interface{} and returns a bool. Compare between the receiver and some interface.</span>
+    TLess(other interface{}) <a href="/pkg/builtin/#bool">bool</a>
+}</pre>
+			<p>
+Interface TLesser to be implemented for objects that will be stored in the tree.
+</p>
+
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Tree">type <a href="/src/target/treer.go?s=611:653#L19">Tree</a></h2>
+			<pre>type Tree struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+			<p>
+Tree data structure.
+</p>
+
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="NewTree">func <a href="/src/target/treer.go?s=695:715#L25">NewTree</a></h3>
+				<pre>func NewTree() *<a href="#Tree">Tree</a></pre>
+				<p>
+Create a new tree with this function.
+</p>
+
+				
+				
+			
+
+			
+				
+				<h3 id="Tree.Delete">func (*Tree) <a href="/src/target/treer.go?s=1919:1953#L97">Delete</a></h3>
+				<pre>func (t *<a href="#Tree">Tree</a>) Delete(key <a href="#TLesser">TLesser</a>)</pre>
+				<p>
+Delete any object by its key.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Tree.Empty">func (*Tree) <a href="/src/target/treer.go?s=1378:1400#L62">Empty</a></h3>
+				<pre>func (t *<a href="#Tree">Tree</a>) Empty()</pre>
+				<p>
+Erase everything from the tree.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Tree.Find">func (*Tree) <a href="/src/target/treer.go?s=786:830#L30">Find</a></h3>
+				<pre>func (t *<a href="#Tree">Tree</a>) Find(key <a href="#TLesser">TLesser</a>) interface{}</pre>
+				<p>
+Find the value corresponding to the given key.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Tree.FindIt">func (*Tree) <a href="/src/target/treer.go?s=938:978#L39">FindIt</a></h3>
+				<pre>func (t *<a href="#Tree">Tree</a>) FindIt(key <a href="#TLesser">TLesser</a>) *node</pre>
+				<p>
+Return an iterator to the key.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Tree.Insert">func (*Tree) <a href="/src/target/treer.go?s=1485:1538#L68">Insert</a></h3>
+				<pre>func (t *<a href="#Tree">Tree</a>) Insert(key <a href="#TLesser">TLesser</a>, value interface{})</pre>
+				<p>
+Insert any object with this function with its key.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Tree.IsEmpty">func (*Tree) <a href="/src/target/treer.go?s=1057:1086#L44">IsEmpty</a></h3>
+				<pre>func (t *<a href="#Tree">Tree</a>) IsEmpty() <a href="/pkg/builtin/#bool">bool</a></pre>
+				<p>
+Check whether the tree is empty. Returns bool.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Tree.Iterator">func (*Tree) <a href="/src/target/treer.go?s=1208:1239#L52">Iterator</a></h3>
+				<pre>func (t *<a href="#Tree">Tree</a>) Iterator() *node</pre>
+				<p>
+Get the iterator that points to the minimum value in the tree.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Tree.Len">func (*Tree) <a href="/src/target/treer.go?s=1299:1323#L57">Len</a></h3>
+				<pre>func (t *<a href="#Tree">Tree</a>) Len() <a href="/pkg/builtin/#int">int</a></pre>
+				<p>
+Get the length of the tree.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Tree.Preorder">func (*Tree) <a href="/src/target/treer.go?s=5634:5659#L291">Preorder</a></h3>
+				<pre>func (t *<a href="#Tree">Tree</a>) Preorder()</pre>
+				<p>
+Display the preorder of the tree.
+</p>
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+

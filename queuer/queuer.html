@@ -1,0 +1,334 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "."</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Simple queue package.
+</p>
+
+			</div>
+		</div>
+		
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="#Queue">type Queue</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ConcatLists">func ConcatLists(d ...*Queue) *Queue</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#InitializeQueue">func InitializeQueue(d ...interface{}) *Queue</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#InitializeQueueA">func InitializeQueueA(d interface{}) *Queue</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Queue.Concat">func (q *Queue) Concat(d ...*Queue)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Queue.Empty">func (q *Queue) Empty() []interface{}</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Queue.IsEmpty">func (q *Queue) IsEmpty() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Queue.Len">func (q *Queue) Len() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Queue.Pop">func (q *Queue) Pop() interface{}</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Queue.PopN">func (q *Queue) PopN(n int) []interface{}</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Queue.PrintAll">func (q *Queue) PrintAll(sepstr ...string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Queue.PrintAllln">func (q *Queue) PrintAllln(sepstr ...string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Queue.Push">func (q *Queue) Push(d ...interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Queue.PushA">func (q *Queue) PushA(d interface{})</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h4>Package files</h4>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/target/queuer.go">queuer.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+		
+		
+		
+			
+			
+			<h2 id="Queue">type <a href="/src/target/queuer.go?s=95:174#L1">Queue</a></h2>
+			<pre>type Queue struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+			<p>
+Queue data structure.
+</p>
+
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="ConcatLists">func <a href="/src/target/queuer.go?s=5494:5530#L250">ConcatLists</a></h3>
+				<pre>func ConcatLists(d ...*<a href="#Queue">Queue</a>) *<a href="#Queue">Queue</a></pre>
+				<p>
+Concatenate and return any number of queues.
+</p>
+
+				
+				
+			
+				
+				<h3 id="InitializeQueue">func <a href="/src/target/queuer.go?s=352:397#L13">InitializeQueue</a></h3>
+				<pre>func InitializeQueue(d ...interface{}) *<a href="#Queue">Queue</a></pre>
+				<p>
+Initialize the queue. Use any number of interface{}&#39;s.
+</p>
+
+				
+				
+			
+				
+				<h3 id="InitializeQueueA">func <a href="/src/target/queuer.go?s=1005:1048#L44">InitializeQueueA</a></h3>
+				<pre>func InitializeQueueA(d interface{}) *<a href="#Queue">Queue</a></pre>
+				<p>
+Initialize the queue. Use an array of interface{}&#39;s.
+</p>
+
+				
+				
+			
+
+			
+				
+				<h3 id="Queue.Concat">func (*Queue) <a href="/src/target/queuer.go?s=5224:5259#L237">Concat</a></h3>
+				<pre>func (q *<a href="#Queue">Queue</a>) Concat(d ...*<a href="#Queue">Queue</a>)</pre>
+				<p>
+Concatenate any number of queues.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Queue.Empty">func (*Queue) <a href="/src/target/queuer.go?s=4791:4828#L219">Empty</a></h3>
+				<pre>func (q *<a href="#Queue">Queue</a>) Empty() []interface{}</pre>
+				<p>
+Erase everything from the queue and return it as []interface{}.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Queue.IsEmpty">func (*Queue) <a href="/src/target/queuer.go?s=1633:1663#L75">IsEmpty</a></h3>
+				<pre>func (q *<a href="#Queue">Queue</a>) IsEmpty() <a href="/pkg/builtin/#bool">bool</a></pre>
+				<p>
+Check if the queue is empty.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Queue.Len">func (*Queue) <a href="/src/target/queuer.go?s=1754:1779#L83">Len</a></h3>
+				<pre>func (q *<a href="#Queue">Queue</a>) Len() <a href="/pkg/builtin/#int">int</a></pre>
+				<p>
+Return the length of the queue.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Queue.Pop">func (*Queue) <a href="/src/target/queuer.go?s=4031:4064#L189">Pop</a></h3>
+				<pre>func (q *<a href="#Queue">Queue</a>) Pop() interface{}</pre>
+				<p>
+Pop from the queue as an interface{}. Remember to perform type assertion on the returned object in order to make it usable.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Queue.PopN">func (*Queue) <a href="/src/target/queuer.go?s=4348:4389#L200">PopN</a></h3>
+				<pre>func (q *<a href="#Queue">Queue</a>) PopN(n <a href="/pkg/builtin/#int">int</a>) []interface{}</pre>
+				<p>
+Pop any number of elements from the queue as []interface{}. Remember to perform type assertion on the returned object in order to make it usable.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Queue.PrintAll">func (*Queue) <a href="/src/target/queuer.go?s=3139:3181#L148">PrintAll</a></h3>
+				<pre>func (q *<a href="#Queue">Queue</a>) PrintAll(sepstr ...<a href="/pkg/builtin/#string">string</a>)</pre>
+				<p>
+Print all objects from the queue. They, of course, should implement Stringer as well. An optional separator can be provided.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Queue.PrintAllln">func (*Queue) <a href="/src/target/queuer.go?s=3581:3625#L168">PrintAllln</a></h3>
+				<pre>func (q *<a href="#Queue">Queue</a>) PrintAllln(sepstr ...<a href="/pkg/builtin/#string">string</a>)</pre>
+				<p>
+Print all objects from the queue and a new line. They, of course, should implement Stringer as well. An optional separator can be provided.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Queue.Push">func (*Queue) <a href="/src/target/queuer.go?s=1838:1876#L88">Push</a></h3>
+				<pre>func (q *<a href="#Queue">Queue</a>) Push(d ...interface{})</pre>
+				<p>
+Push any number of interface{}&#39;s.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Queue.PushA">func (*Queue) <a href="/src/target/queuer.go?s=2443:2479#L118">PushA</a></h3>
+				<pre>func (q *<a href="#Queue">Queue</a>) PushA(d interface{})</pre>
+				<p>
+Push an array of interface{}&#39;s.
+</p>
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+

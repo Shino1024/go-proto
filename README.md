@@ -54,4 +54,8 @@ Yes, that means that Go primitive types need to be aliased and given the `Less()
 
 (The project is in development and many changes can happen.)
 
+Using the sakeven's rbtree source file for the treer (https://github.com/sakeven/RbTree).
+
+There's documentation of every package available in every package's directory (generated with godoc).
+
 # TO DO:

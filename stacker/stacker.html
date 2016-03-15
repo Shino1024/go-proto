@@ -1,0 +1,348 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "."</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package stacker provides a simple stack.
+</p>
+
+			</div>
+		</div>
+		
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="#Stack">type Stack</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#ConcatStacks">func ConcatStacks(s ...*Stack) *Stack</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#InitializeStack">func InitializeStack(d ...interface{}) *Stack</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#InitializeStackA">func InitializeStackA(d []interface{}) *Stack</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Stack.Concat">func (s *Stack) Concat(s2 ...*Stack)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Stack.Empty">func (s *Stack) Empty() []interface{}</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Stack.IsEmpty">func (s *Stack) IsEmpty() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Stack.Len">func (s *Stack) Len() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Stack.Pop">func (s *Stack) Pop() interface{}</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Stack.PopN">func (s *Stack) PopN(a int) []interface{}</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Stack.PrintAll">func (s *Stack) PrintAll(sepstr ...string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Stack.PrintAllln">func (s *Stack) PrintAllln(sepstr ...string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Stack.Push">func (s *Stack) Push(a ...interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Stack.PushA">func (s *Stack) PushA(a interface{}) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Stack.Top">func (s *Stack) Top() (interface{}, error)</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h4>Package files</h4>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/target/stacker.go">stacker.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+		
+		
+		
+			
+			
+			<h2 id="Stack">type <a href="/src/target/stacker.go?s=134:179#L1">Stack</a></h2>
+			<pre>type Stack struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+			<p>
+Stack data structure.
+</p>
+
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="ConcatStacks">func <a href="/src/target/stacker.go?s=4010:4047#L152">ConcatStacks</a></h3>
+				<pre>func ConcatStacks(s ...*<a href="#Stack">Stack</a>) *<a href="#Stack">Stack</a></pre>
+				<p>
+Concatenate and return any number of stacks.
+</p>
+
+				
+				
+			
+				
+				<h3 id="InitializeStack">func <a href="/src/target/stacker.go?s=241:286#L6">InitializeStack</a></h3>
+				<pre>func InitializeStack(d ...interface{}) *<a href="#Stack">Stack</a></pre>
+				<p>
+Initialize the stack. Use any number of interface{}&#39;s.
+</p>
+
+				
+				
+			
+				
+				<h3 id="InitializeStackA">func <a href="/src/target/stacker.go?s=429:474#L14">InitializeStackA</a></h3>
+				<pre>func InitializeStackA(d []interface{}) *<a href="#Stack">Stack</a></pre>
+				<p>
+Initialize the stack. Use an array of interface{}&#39;s.
+</p>
+
+				
+				
+			
+
+			
+				
+				<h3 id="Stack.Concat">func (*Stack) <a href="/src/target/stacker.go?s=3675:3711#L137">Concat</a></h3>
+				<pre>func (s *<a href="#Stack">Stack</a>) Concat(s2 ...*<a href="#Stack">Stack</a>)</pre>
+				<p>
+Concatenate any number of stacks.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.Empty">func (*Stack) <a href="/src/target/stacker.go?s=2719:2756#L94">Empty</a></h3>
+				<pre>func (s *<a href="#Stack">Stack</a>) Empty() []interface{}</pre>
+				<p>
+Erase everything from the stack and return it as []interface{}.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.IsEmpty">func (*Stack) <a href="/src/target/stacker.go?s=752:782#L28">IsEmpty</a></h3>
+				<pre>func (s *<a href="#Stack">Stack</a>) IsEmpty() <a href="/pkg/builtin/#bool">bool</a></pre>
+				<p>
+Check if the stack is empty.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.Len">func (*Stack) <a href="/src/target/stacker.go?s=4199:4224#L162">Len</a></h3>
+				<pre>func (s *<a href="#Stack">Stack</a>) Len() <a href="/pkg/builtin/#int">int</a></pre>
+				<p>
+Get the length of the stack.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.Pop">func (*Stack) <a href="/src/target/stacker.go?s=2059:2091#L71">Pop</a></h3>
+				<pre>func (s *<a href="#Stack">Stack</a>) Pop() interface{}</pre>
+				<p>
+Pop from the stack as an interface{}. Remember to perform type assertion on the returned object in order to make it usable.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.PopN">func (*Stack) <a href="/src/target/stacker.go?s=2442:2483#L83">PopN</a></h3>
+				<pre>func (s *<a href="#Stack">Stack</a>) PopN(a <a href="/pkg/builtin/#int">int</a>) []interface{}</pre>
+				<p>
+Pop any number of elements from the stack as []interface{}. Remember to perform type assertion on the returned object in order to make it usable.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.PrintAll">func (*Stack) <a href="/src/target/stacker.go?s=2977:3019#L103">PrintAll</a></h3>
+				<pre>func (s *<a href="#Stack">Stack</a>) PrintAll(sepstr ...<a href="/pkg/builtin/#string">string</a>)</pre>
+				<p>
+Print all objects from the stack. They, of course, should implement Stringer as well. An optional separator can be provided.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.PrintAllln">func (*Stack) <a href="/src/target/stacker.go?s=3377:3421#L120">PrintAllln</a></h3>
+				<pre>func (s *<a href="#Stack">Stack</a>) PrintAllln(sepstr ...<a href="/pkg/builtin/#string">string</a>)</pre>
+				<p>
+Print all objects from the stack and a new line. They, of course, should implement Stringer as well. An optional separator can be provided.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.Push">func (*Stack) <a href="/src/target/stacker.go?s=1142:1180#L44">Push</a></h3>
+				<pre>func (s *<a href="#Stack">Stack</a>) Push(a ...interface{})</pre>
+				<p>
+Push any number of interface{}&#39;s.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.PushA">func (*Stack) <a href="/src/target/stacker.go?s=1546:1588#L57">PushA</a></h3>
+				<pre>func (s *<a href="#Stack">Stack</a>) PushA(a interface{}) <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+Push an array of interface{}&#39;s.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Stack.Top">func (*Stack) <a href="/src/target/stacker.go?s=909:951#L36">Top</a></h3>
+				<pre>func (s *<a href="#Stack">Stack</a>) Top() (interface{}, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Get the top object of the stack. It may return an error.
+</p>
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+
